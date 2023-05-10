@@ -8,7 +8,7 @@ Using Typescript for the first time
 Used create-react-app as follows :
 npx create-react-app obt --template typescript
 
-installed TailwindCSS
+installed TailwindCSS,
 all packages used:
 
 obt@0.1.0 /home/razal/projects/obt
