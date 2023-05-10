@@ -99,7 +99,7 @@ export default function SearchBarNR(props) {
   return (
     <>
       <div
-        className={`mt-[15rem] border-solid border-[1px] rounded-md w-fit ${props.className}`}
+        className={`border-solid border-[1px] rounded-md w-fit ${props.className}`}
       >
         <div className="flex m-[1rem] gap-y-0.5">
           <form className=" flex flex-col m-[1rem] gap-0.5">
