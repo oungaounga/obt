@@ -1,6 +1,6 @@
 /** @format */
 
-import DatePicker from './DatePicker'
+import DatePicker from './Components/SearchBar/components/DatePicker'
 
 export default function TwoDatePickers(props) {
   return (

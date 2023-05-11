@@ -4,7 +4,7 @@
 import React, {ReactNode, useState} from 'react'
 import SearchBar from './Components/SearchBar/SearchBar'
 import SearchBarNR from './SearchBarNR'
-import DatePicker from './DatePicker'
+import DatePicker from './Components/SearchBar/components/DatePicker'
 import TwoDatePickers from './TwoDatePickers'
 import Heading from './Components/Heading'
 import {Spacer} from './Spacer'
@@ -17,7 +17,6 @@ import Navbar from './Components/Navbar'
 function App() {
   // fetchCities()
 
-  console.clear()
   fetchAllApis()
   const [cities, setCities] = useState<string[] | null>(null)
   const renderCities = cities?.map((item, index) => <li key={index}>{item}</li>)
