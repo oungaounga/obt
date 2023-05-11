@@ -2,7 +2,7 @@
 
 // import {fetchCities} from './Foo'
 import React, {ReactNode, useState} from 'react'
-import SearchBar from './SearchBar'
+import SearchBar from './Components/SearchBar/SearchBar'
 import SearchBarNR from './SearchBarNR'
 import DatePicker from './DatePicker'
 import TwoDatePickers from './TwoDatePickers'
@@ -88,15 +88,11 @@ function App() {
       <div className="relative text-white">
         <Banner />
         <Navbar />
-        <div>
-          <span>
-            <br />{' '}
-          </span>
-        </div>
+        <Spacer y={1} cN="" />
         <Heading />
-        <div id="searchBar" className="relative z-10 flex justify-center">
-          <div className="w-full h-full bg-slate-600 max-w-[75vw]"></div>
-        </div>
+        <Spacer y={1} cN="" />
+
+        <SearchBar />
       </div>
     </div>
   )

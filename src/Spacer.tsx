@@ -1,19 +1,27 @@
 /** @format */
+import React from 'react'
 
-const Space = () => {
+const Space = ({cN}) => {
   return (
-    <div>
+    <div className={cN}>
       <span>
+        hello
         <br />{' '}
       </span>
     </div>
   )
 }
 
-export const Spacer = (props) => {
-  const totalSpace = []
-  for (let i = 0; i <= props.y; i++) {
-    totalSpace.push(<Spacer />)
+export const Spacer = ({y, cN}) => {
+  let v = ['one']
+  for (let i = 0; i < y; i++) {
+    v.push(' ')
   }
-  return totalSpace
+  return (
+    <>
+      {v.map((item) => {
+        return <Space cN={cN} />
+      })}
+    </>
+  )
 }
