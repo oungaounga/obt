@@ -6,11 +6,13 @@ import SearchBar from './SearchBar'
 import SearchBarNR from './SearchBarNR'
 import DatePicker from './DatePicker'
 import TwoDatePickers from './TwoDatePickers'
+import Heading from './Components/Heading'
+import {Spacer} from './Spacer'
 import {fetchCities, autoComplete, handleSubmit, matchCities} from './autoC'
 import {fetchAllApis, popularCities, getLocalNameArray} from './actions'
 import './App.css'
-import Banner from './Banner'
-import Navbar from './Navbar'
+import Banner from './Components/Banner'
+import Navbar from './Components/Navbar'
 
 function App() {
   // fetchCities()
@@ -83,10 +85,18 @@ function App() {
     //   </div>
     // </div>
     <div className="w-[100vw] h-[99vh]">
-      <div className="relative">
+      <div className="relative text-white">
         <Banner />
         <Navbar />
-        <div id="searchBar"></div>
+        <div>
+          <span>
+            <br />{' '}
+          </span>
+        </div>
+        <Heading />
+        <div id="searchBar" className="relative z-10 flex justify-center">
+          <div className="w-full h-full bg-slate-600 max-w-[75vw]"></div>
+        </div>
       </div>
     </div>
   )
