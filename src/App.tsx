@@ -90,8 +90,7 @@ function App() {
         <Navbar />
         <Spacer y={1} cN="" />
         <Heading />
-        <Spacer y={1} cN="" />
-
+        <br />
         <SearchBar />
       </div>
     </div>

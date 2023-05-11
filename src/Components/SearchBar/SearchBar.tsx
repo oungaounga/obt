@@ -81,7 +81,7 @@ const toggleIcon = (
   <div>
     <label className="relative mb-5  cursor-pointer">
       <input type="checkbox" value="" className="sr-only peer" />
-      <div className="w-9 h-5  peer-focus:outline-none  peer-focus:ring-blue-300 rounded-full peer dark:bg-gray-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#5E90CC]"></div>
+      <div className="w-9 h-[22px]  peer-focus:outline-none  peer-focus:ring-blue-300 rounded-full peer dark:bg-gray-300 peer-checked:after:translate-x-[0.9rem] peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-[#5E90CC]"></div>
     </label>
   </div>
 )
@@ -183,12 +183,20 @@ export default function SearchBar(props) {
     <>
       <div id="searchBar" className="relative z-10 flex justify-center">
         <div className="w-full h-full bg-white rounded-md shadow-md max-w-[75vw] flex flex-col gap-[1rem] p-[1rem]">
-          <div className="w-full bg-slate-500 relative flex gap-2">
-            <div className="relative flex gap-1">
-              <p className="inline hover:cursor-pointer">One-way</p>
+          <div className="w-full  relative flex gap-2 select-none">
+            <div
+              className="relative flex gap-1"
+              onClick={() => {
+                setAdult(false)
+                setOneWay(!oneWay)
+              }}
+            >
+              <p className="inline hover:cursor-pointer text-sm text-[#132968] ">
+                One-way
+              </p>
               {oneWayChevron}
               {oneWay && (
-                <div className="absolute top-[1.5rem] w-[8rem] bg-white rounded text-black z-40 shadow-lg">
+                <div className="absolute select-none top-[1.5rem] w-[8rem] bg-white rounded text-black z-40 shadow-lg">
                   <div className="flex hover:bg-neutral-200 w-full pl-[1rem] pr-[1rem] p-[0.5rem] rounded-t-md">
                     {checkIcon}
                     <p className="w-full text-end font-bold">One way</p>
@@ -199,13 +207,21 @@ export default function SearchBar(props) {
                 </div>
               )}
             </div>
-            <div className="relative flex gap-1">
-              <span className="inline">1 Adult, No discount card</span>
+            <div
+              className="relative flex gap-1"
+              onClick={() => {
+                setOneWay(false)
+                setAdult(!adult)
+              }}
+            >
+              <span className="inline hover:cursor-pointer text-sm text-[#132968]">
+                1 Adult, No discount card
+              </span>
               {adultChevron}
               {adult && (
                 <div
                   id="personConfig"
-                  className="absolute top-[1.5rem] p-[1rem] w-[22rem] bg-white rounded text-black z-40 shadow-lg"
+                  className="absolute select-none top-[1.5rem] p-[1rem] w-[22rem] bg-white rounded text-black z-40 shadow-lg"
                 >
                   <div className="flex flex-col gap-3 divide-y divide-y-neutral-300">
                     <div className="flex justify-between items-center">
@@ -260,8 +276,63 @@ export default function SearchBar(props) {
               )}
             </div>
           </div>
-          <div className="w-full flex bg-slate-500">from city airpot</div>
-          <div className="w-full flex bg-slate-500">find my accomodation</div>
+          <div
+            id="secondline"
+            className="w-full flex-wrap flex gap-3 space-between text-[#132968] "
+          >
+            <div
+              id="from"
+              className="shrink bg-neutral-100 flex p-[0.5rem] h-[3rem] rounded-md hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset"
+            >
+              {circleIcon}
+              <input
+                className="bg-inherit pl-1 pr-1 focus:outline-none"
+                placeholder="from"
+              />
+              {updownarrowsIcon}
+            </div>
+            <div
+              className="shrink bg-neutral-100 flex h-[3rem]  p-[0.5rem] rounded-md hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset"
+              id="to"
+            >
+              {positionIcon}
+              <input
+                type="text"
+                className="bg-neutral-100  pl-1 pr-1 focus:outline-none"
+                placeholder="to"
+              />
+            </div>
+            <div className="flex grow h-[3rem] bg-neutral-100 rounded-md gap-2 ">
+              <div className=" flex grow divide-x divide-x-black hover:divide-none">
+                <div className="flex gap-3 rounded-l-md hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset">
+                  <div className="grid content-center pl-2 ">
+                    {calendarIcon}
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="departure date"
+                    className="bg-neutral-100 focus:outline-none hover:cursor-pointer hover:border-t-[1px] hover:border-r-[1px] hover:border-b-[1px] hover:border-t-neutral-300 hover:border-r-neutral-300 hover:border-b-neutral-300"
+                  />
+                </div>
+
+                <input
+                  type="text"
+                  placeholder="return date"
+                  className="grow pl-2 rounded-r-md focus:outline-none bg-neutral-100 hover:cursor-pointer hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset"
+                />
+              </div>
+            </div>
+            <button className="text-center bg-[#FA6B6B] text-white h-[3rem] rounded-md p-[0.5rem] grow transition hover:brightness-125">
+              {' '}
+              Search
+            </button>
+          </div>
+          <div className="w-full flex text-[#132968]">
+            <div className="flex gap-2">
+              {toggleIcon}
+              <p className="text-sm">Find my accomodation</p>
+            </div>
+          </div>
         </div>
       </div>
       {/* <SearchInput placeholder="From ?" />
