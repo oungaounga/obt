@@ -12,8 +12,8 @@ import DatePicker from './DatePicker'
 
 export default function TravelOptions() {
   const [pickDate, setPickDate] = useState(false)
-  const travelInfo = useContext(TravelInfoContext)
-  console.log('context works ?', travelInfo)
+  // const travelInfo = useContext(TravelInfoContext)
+  // console.log('context works ?', travelInfo)
   return (
     <>
       <div

@@ -1,6 +1,7 @@
 /** @format */
 
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+import {TContext} from '../SearchBar'
 import {
   checkIcon,
   plusIcon,
@@ -13,6 +14,8 @@ import {
 export default function PassengerOptions(props) {
   const [oneWay, setOneWay] = useState(false)
   const [adult, setAdult] = useState(false)
+  const {one, setOne} = useContext(TContext)
+
   const oneWayChevron = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
