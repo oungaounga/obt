@@ -4,7 +4,7 @@
 import React, {ReactNode, useState} from 'react'
 import SearchBar from './Components/SearchBar/SearchBar'
 import SearchBarNR from './SearchBarNR'
-import DatePicker from './Components/SearchBar/components/DatePicker'
+import DatePicker from './Components/SearchBar/components/TravelOptions/components/DatePicker'
 import TwoDatePickers from './TwoDatePickers'
 import Heading from './Components/Heading'
 import {Spacer} from './Spacer'
@@ -91,6 +91,7 @@ function App() {
         <Heading />
         <br />
         <SearchBar />
+        <SearchBarNR />
       </div>
     </div>
   )

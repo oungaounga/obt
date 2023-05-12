@@ -6,8 +6,10 @@ export default function Banner() {
       <img
         src="./omiobg.jpg"
         alt="omio background"
-        className="h-full w-full object-fit-cover"
+        className="h-auto w-[100%] object-fill"
       ></img>
     </div>
   )
 }
+
+// className="h-full w-full object-fit-cover"

@@ -45,12 +45,14 @@ export const matchCities = (input: string): string[] => {
   return result
 }
 
-export const ac = (input: string, list: string[]): string[] => {
+export const ac = (input: string, list: string[], from?: string): string[] => {
   let result: string[] = []
   list.forEach((item) => {
     patternMatch(item, input) ? result.push(item) : console.log('')
   })
-  console.log('matching results :', result)
+  if (typeof from !== 'undefined') {
+    result.splice(result.indexOf(from), 1)
+  }
   return result
 }
 

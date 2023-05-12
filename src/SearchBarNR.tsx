@@ -99,11 +99,11 @@ export default function SearchBarNR(props) {
   return (
     <>
       <div
-        className={`border-solid border-[1px] rounded-md w-fit ${props.className}`}
+        className={`border-solid border-[1px] rounded-md w-fit text-black ${props.className}`}
       >
         <div className="flex m-[1rem] gap-y-0.5">
           <form className=" flex flex-col m-[1rem] gap-0.5">
-            <div className="flex ml-[1rem] gap-[0.5rem]">
+            {/* <div className="flex ml-[1rem] gap-[0.5rem]">
               <div className="flex gap-[2px]">
                 <p className="text-sm text-neutral-500">One-way</p>
                 <svg
@@ -136,7 +136,7 @@ export default function SearchBarNR(props) {
                   />
                 </svg>
               </div>
-            </div>
+            </div> */}
             <div className="flex m-[1rem] gap-[1rem]">
               <div className="relative rounded-md p-2 bg-neutral-100 flex gap-[3px]">
                 <div className="relative">{toggle === 1 && list}</div>

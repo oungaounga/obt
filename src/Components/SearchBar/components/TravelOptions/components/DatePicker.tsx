@@ -1,7 +1,7 @@
 /** @format */
 import React, {useState, useContext} from 'react'
 import dayjs from 'dayjs'
-import {rightchevronIcon, leftchevronIcon} from '../../icons'
+import {rightchevronIcon, leftchevronIcon} from '../../../../icons'
 
 const today = dayjs()
 const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
