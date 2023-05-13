@@ -163,12 +163,12 @@ export default function Navbar(props) {
   return (
     <div
       id="navbar"
-      className="z-40 relative text-white flex flex-col items-center"
+      className="z-40 relative  text-white flex flex-col lg:items-center"
     >
       <div className="flex max-w-[75vw] justify-between p-[1rem] xl:w-[75vw] ">
         <div className="flex gap-6">
-          <span className="text-4xl font-bold ">omio</span>
-          <div className="flex justify-between items-center text-sm gap-4">
+          <span className="text-4xl font-bold  ">omio</span>
+          <div className="flex justify-between hidden lg:flex items-center text-sm gap-4">
             <div className="relative">
               <span
                 className="hover:cursor-pointer"
@@ -239,7 +239,7 @@ export default function Navbar(props) {
             </div>
           </div>
         </div>
-        <div className="flex gap-6 items-center text-sm">
+        <div className="flex hidden lg:flex gap-6 items-center text-sm">
           <div>
             <span className="hover:cursor-pointer inline">€</span>
             {downChevronIcon}

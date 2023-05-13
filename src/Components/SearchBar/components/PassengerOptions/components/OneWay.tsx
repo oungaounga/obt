@@ -1,10 +1,14 @@
 /** @format */
 import {useContext} from 'react'
 import {BookOptionsContext} from '../../../SearchBar'
+import {formatDateForInput} from '../../DatePicker/DatePicker'
+import {ToggleContext} from '../../../../../App'
 import {CheckIcon} from '../../../../icons'
+import dayjs from 'dayjs'
 
 export default function OneWay(props) {
-  const {toggle, setToggle} = props.toggle
+  // const {toggle, setToggle} = props.toggle
+  const {toggle, setToggle} = useContext(ToggleContext)
   const {bookOptions: data, setBookOptions: set} =
     useContext(BookOptionsContext)
 
@@ -15,14 +19,13 @@ export default function OneWay(props) {
       height="16"
       fill="currentColor"
       className={`transition ${
-        toggle.oneWay ? 'rotate-180' : 'rotate-0'
+        toggle === 4 ? 'rotate-180' : 'rotate-0'
       } self-center inline fill-neutral-400 hover:cursor-pointer`}
       viewBox="0 0 16 16"
-      onClick={() => {
-        setToggle({
-          oneWay: !toggle.oneWay,
-          adult: false,
-        })
+      onClick={(e) => {
+        e.stopPropagation()
+        setToggle(toggle !== 4 ? 4 : 0)
+        console.log('one way : ', toggle)
       }}
     >
       <path
@@ -34,19 +37,18 @@ export default function OneWay(props) {
 
   return (
     <div
-      className="relative flex gap-1"
-      onClick={() => {
-        setToggle({
-          oneWay: !toggle.oneWay,
-          adult: false,
-        })
+      className="relative flex gap-1 z-40 bg-white"
+      onClick={(e) => {
+        e.stopPropagation()
+        setToggle(toggle !== 4 && 4)
+        console.log('one way ', toggle)
       }}
     >
       <p className="inline hover:cursor-pointer text-sm text-[#132968] ">
         {data.roundtrip ? 'Round trip' : 'One-way'}
       </p>
       {oneWayChevron}
-      {toggle.oneWay && (
+      {toggle === 4 && (
         <div className="absolute select-none top-[1.5rem] w-[8rem] bg-white rounded text-black z-40 shadow-lg">
           <div
             className="flex hover:bg-neutral-200 w-full pl-[0.5rem] pr-[1rem] p-[0.5rem] gap-[3px] h-fit rounded-t-md"
@@ -70,7 +72,20 @@ export default function OneWay(props) {
             <CheckIcon
               className={`${data.roundtrip ? 'block' : 'invisible'}`}
             />
-            <p className={`w-full ${data.roundtrip && 'font-bold'}`}>
+            <p
+              className={`w-full ${data.roundtrip && 'font-bold'}`}
+              onClick={(e) => {
+                e.stopPropagation()
+                let add = dayjs().add(7, 'day')
+                set({
+                  ...data,
+                  roundtrip: true,
+                  return: formatDateForInput(add),
+                  rDateObject: add,
+                })
+                setToggle(0)
+              }}
+            >
               Round trip
             </p>
           </div>

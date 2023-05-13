@@ -1,6 +1,7 @@
 /** @format */
 import {useContext, useState} from 'react'
 import {BookOptionsContext} from '../../../SearchBar'
+import {ToggleContext} from '../../../../../App'
 
 import {
   PlusIcon,
@@ -9,11 +10,10 @@ import {
   infoIcon,
   toggleIcon,
 } from '../../../../icons'
-import {cpSync} from 'fs'
 
 export default function Passengers(props) {
   const [title, setTitle] = useState('1 Adult, No discount card')
-  const {toggle, setToggle} = props.toggle
+  const {toggle, setToggle} = useContext(ToggleContext)
   const {bookOptions: data, setBookOptions: set} =
     useContext(BookOptionsContext)
   const adultChevron = (
@@ -23,14 +23,19 @@ export default function Passengers(props) {
       height="16"
       fill="currentColor"
       className={`transition ${
-        toggle.adult ? 'rotate-180' : 'rotate-0'
+        toggle === 5 ? 'rotate-180' : 'rotate-0'
       } self-center inline fill-neutral-400 hover:cursor-pointer`}
       viewBox="0 0 16 16"
-      onClick={() => {
-        setToggle({
-          oneWay: false,
-          adult: !toggle.adult,
-        })
+      onClick={(e) => {
+        e.stopPropagation()
+        setToggle(
+          toggle !== 5 && 5
+
+          //   {
+          //   oneWay: false,
+          //   adult: !toggle.adult,
+          // }
+        )
       }}
     >
       <path
@@ -132,20 +137,31 @@ export default function Passengers(props) {
     //   }
   }
   return (
-    <div className="relative flex gap-1" onClick={() => setTitle(makeTitle())}>
+    <div
+      className="relative flex gap-1 z-40"
+      onClick={(e) => {
+        e.stopPropagation()
+        setTitle(makeTitle())
+      }}
+    >
       <span
         className="inline hover:cursor-pointer text-sm text-[#132968]"
-        onClick={() => {
-          setToggle({
-            oneWay: false,
-            adult: !toggle.adult,
-          })
+        onClick={(e) => {
+          e.stopPropagation()
+          setToggle(
+            toggle !== 5 && 5
+
+            //   {
+            //   oneWay: false,
+            //   adult: !toggle.adult,
+            // }
+          )
         }}
       >
         {title}
       </span>
       {adultChevron}
-      {toggle.adult && (
+      {toggle === 5 && (
         <div
           id="personConfig"
           className="absolute select-none top-[1.5rem] p-[1rem] w-[22rem] bg-white rounded text-black z-40 shadow-lg"
@@ -159,10 +175,11 @@ export default function Passengers(props) {
               <div className="flex justify-between gap-5">
                 <div
                   className="w-fit h-fit rounded-full"
-                  onClick={() => {
-                    let pop = data.passengers.adult.pop()
-                    set({...data, pop})
-                    // makeTitle()
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    data.passengers.adult.pop()
+                    set({...data})
+                    makeTitle()
                   }}
                 >
                   <MinusIcon
@@ -180,7 +197,8 @@ export default function Passengers(props) {
                 </span>
                 <div
                   className="w-fit h-fit rounded-full"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation()
                     if (
                       data.passengers.adult.length +
                         data.passengers.youth.length +
@@ -191,7 +209,7 @@ export default function Passengers(props) {
                         age: 26,
                         discount: [''],
                       })
-                      set({...data, push})
+                      set({...data})
                     } else {
                       console.log('to much passengers')
                     }
@@ -218,7 +236,8 @@ export default function Passengers(props) {
               <div className="flex justify-between gap-5">
                 <div
                   className="w-fit h-fit rounded-full"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation()
                     let push = data.passengers.youth.pop()
                     set({...data, push})
                   }}
@@ -238,7 +257,8 @@ export default function Passengers(props) {
                 </span>
                 <div
                   className="w-fit h-fit rounded-full"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation()
                     if (
                       data.passengers.adult.length +
                         data.passengers.youth.length +
@@ -276,7 +296,8 @@ export default function Passengers(props) {
               <div className="flex justify-between gap-5">
                 <div
                   className="w-fit h-fit rounded-full"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation()
                     let push = data.passengers.senior.pop()
                     set({...data, push})
                   }}
@@ -296,7 +317,8 @@ export default function Passengers(props) {
                 </span>
                 <div
                   className="w-fit h-fit rounded-full"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation()
                     if (
                       data.passengers.adult.length +
                         data.passengers.youth.length +

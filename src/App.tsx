@@ -1,11 +1,8 @@
 /** @format */
 
 // import {fetchCities} from './Foo'
-import React, {ReactNode, useState} from 'react'
+import React, {ReactNode, useState, createContext} from 'react'
 import SearchBar from './Components/SearchBar/SearchBar'
-import SearchBarNR from './SearchBarNR'
-import DatePicker from './Components/SearchBar/components/TravelOptions/components/DatePicker'
-import TwoDatePickers from './TwoDatePickers'
 import Heading from './Components/Heading'
 import {Spacer} from './Spacer'
 import {fetchCities, autoComplete, handleSubmit, matchCities} from './autoC'
@@ -14,8 +11,11 @@ import './App.css'
 import Banner from './Components/Banner'
 import Navbar from './Components/Navbar'
 
+export const ToggleContext = createContext(null)
+
 function App() {
   // fetchCities()
+  const [toggle, setToggle] = useState(0)
 
   fetchAllApis()
   const [cities, setCities] = useState<string[] | null>(null)
@@ -83,17 +83,27 @@ function App() {
     //     </div>
     //   </div>
     // </div>
-    <div className="w-[100vw] h-[99vh]">
-      <div className="relative text-white">
-        <Banner />
-        <Navbar />
-        <Spacer y={1} cN="" />
-        <Heading />
-        <br />
-        <SearchBar />
-        <SearchBarNR />
+    <ToggleContext.Provider value={{toggle, setToggle}}>
+      <div
+        id="background"
+        className="w-[100vw] h-[99vh] z-0 "
+        onClick={(e) => {
+          e.stopPropagation()
+          // if (!e.currentTarget.attributes.class.nodeValue.includes('z-40')) {
+          // }
+          setToggle(0)
+        }}
+      >
+        <div className="relative text-white">
+          <Banner />
+          <Navbar />
+          <Spacer y={1} cN="" />
+          <Heading />
+          <br />
+          <SearchBar />
+        </div>
       </div>
-    </div>
+    </ToggleContext.Provider>
   )
 }
 

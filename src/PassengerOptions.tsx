@@ -1,7 +1,7 @@
 /** @format */
 
 import React, {useState, useContext} from 'react'
-import {TContext} from '../SearchBar'
+import {TContext} from './Components/SearchBar/SearchBar'
 import {
   checkIcon,
   plusIcon,
@@ -9,7 +9,7 @@ import {
   cardIcon,
   infoIcon,
   toggleIcon,
-} from '../../icons'
+} from './Components/icons'
 
 export default function PassengerOptions(props) {
   const [oneWay, setOneWay] = useState(false)
