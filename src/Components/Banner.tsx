@@ -4,21 +4,26 @@ export default function Banner() {
   return (
     <div
       id="banner"
-      className="flex bg-no-repeat bg-cover
-      
-      
-      bg-center absolute justify-center overflow-hidden"
+      className="flex bg-no-repeat bg-cover      
+      bg-center absolute justify-center overflow-hidden z-0"
     >
       <img
         src="./omiobg.jpg"
+        alt="background"
+        className="hidden xl:block omio background"
+      />
+      {/* <img src="./bgsm.jpg" alt="omio background" className="sm:hidden" /> */}
+      {/* <img
+        src="./bgmd.jpg"
         alt="omio background"
-        // className="absolute  min-w-[100%]  min-h-[100%] bg-cover bg-center bg-fixed
-        // z-0"
-        className=" shrink-0  
-         z-0"
-
-        // className="h-auto w-[100%] object-fill"
-      ></img>
+        className="hidden md:max-lg:inline-block"
+      /> */}
+      <img src="./bglg.jpg" alt="omio background" className="lg:hidden" />
+      <img
+        src="./bgxl.jpg"
+        alt="omio background"
+        className="hidden lg:max-xl:inline-block left-0"
+      />
     </div>
   )
 }

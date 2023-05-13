@@ -113,13 +113,14 @@ function App() {
           setToggle(0)
         }}
       >
-        <div className="relative text-white">
+        <div className="relative">
           <Banner />
           <Navbar />
-          <Spacer y={1} cN="" />
+          {/* <Spacer y={1} cN="" /> */}
           <Heading />
           <br />
           <SearchBar />
+          <Spacer y={1} />
         </div>
       </div>
     </ToggleContext.Provider>

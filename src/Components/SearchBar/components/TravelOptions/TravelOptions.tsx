@@ -1,6 +1,6 @@
 /** @format */
 
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect, useRef} from 'react'
 import DatePicker from '../DatePicker/DatePicker'
 import {BookOptionsContext} from '../../SearchBar'
 import {ToggleContext} from '../../../../App'
@@ -60,7 +60,7 @@ export default function TravelOptions() {
     <>
       <div
         id="secondline"
-        className="w-full md:flex-wrap flex flex-col md:flex-row bg-inherit gap-3 space-between text-[#132968] "
+        className="w-full flex flex-col md:flex-row md:flex-wrap  bg-inherit gap-3 space-between text-[#132968] "
       >
         <div
           id="from"
@@ -69,7 +69,7 @@ export default function TravelOptions() {
           {circleIcon}
           <input
             type="text"
-            className="bg-inherit pl-1 pr-1 focus:outline-none"
+            className="bg-inherit pl-1 pr-1 md:max-lg:w-[7rem] focus:outline-none"
             placeholder="from: City, Station or Airport"
             onChange={(e) => {
               setBookOptions({...bookOptions, travelfrom: e.target.value})
@@ -96,7 +96,7 @@ export default function TravelOptions() {
         </div>
 
         <div
-          className="relative md:shirnk w-full md:w-fit bg-neutral-100 flex h-[3rem]  p-[0.5rem] rounded-md hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset"
+          className="relative md:shirnk flex full sm:max-md:max-w-1/5 md:w-fit bg-neutral-100  h-[3rem] p-[0.5rem] rounded-md hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset"
           id="to"
         >
           {positionIcon}
@@ -118,31 +118,22 @@ export default function TravelOptions() {
               setCities(secondClickCities)
               setToggle(toggle !== 2 ? 2 : 0)
             }}
-            // onFocus={(e) => {
-            //   !toggle || toggle == 1 ? setToggle(2) : setToggle(0)
-            //   e.target.select()
-            // }}
-            // onBlur={(e) => {
-            //   setTimeout(() => {
-            //     e.relatedTarget ? setToggle(1) : setToggle(0)
-            //   }, 500)
-            // }}
             value={bookOptions.travelto}
-            className="bg-neutral-100  pl-1 pr-1 focus:outline-none"
+            className="bg-neutral-100 pl-1 pr-1 focus:outline-none"
           />
           {toggle === 2 && (
             <CityChoice cities={cities} toggle={{toggle, setToggle}} />
           )}
         </div>
 
-        <div className=" flex md:shirnk flex-wrap justify-around md:grow bg-neutral-100 rounded-md divide-x divide-x-neutral-700 hover:divide-none">
+        <div className=" flex flex-wrap justify-around md:grow bg-neutral-100 rounded-md divide-x divide-x-neutral-700 hover:divide-none">
           <div className="relative shrink md:grow flex justify-start w-1/2 gap-3 rounded-l-md hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset">
             <div className="grid content-center pl-2 ">{calendarIcon}</div>
             <div>
               <input
                 type="text"
                 placeholder="departure date"
-                className="bg-neutral-100 appearance-none bg-inherit w-[7rem] h-[3rem] md:w-[3rem] lg:w-auto shrink focus:outline-none hover:cursor-pointer hover:border-t-[1px] hover:border-r-[1px] hover:border-b-[1px] hover:border-t-neutral-300 hover:border-r-neutral-300 hover:border-b-neutral-300"
+                className="bg-neutral-100 appearance-none bg-inherit m-[2px] w-[7rem] h-[3rem] md:w-[5rem] truncate lg:w-auto shrink focus:outline-none hover:cursor-pointer "
                 value={bookOptions.departure}
                 onClick={(e) => {
                   e.stopPropagation()
@@ -153,14 +144,14 @@ export default function TravelOptions() {
 
             {toggle === 3 && <DatePicker />}
           </div>
-          <div className="rounded-r-md md:grow focus:outline-none w-1/2 bg-neutral-100 hover:cursor-pointer hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset">
+          <div className="rounded-r-md md:grow focus:outline-none w-1/2  bg-neutral-100 hover:cursor-pointer hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset ">
             <input
               type="text"
-              placeholder="+ Add return"
-              className=" inline-block truncate bg-inherit w-[7rem] h-[3rem] md:w-[3rem] lg:w-auto text-right md:text-center rounded-r-md"
+              placeholder=" + Add return"
+              className=" inline-block truncate bg-inherit w-[7rem] h-[3rem] md:w-[5rem] lg:w-auto m-[2px] focus:outline-none border-none   text-right md:text-center hover:cursor-pointer rounded-r-md"
               onClick={(e) => {
                 e.stopPropagation()
-                setToggle(3)
+                bookOptions.return && setToggle(3)
               }}
               value={bookOptions.return}
             />

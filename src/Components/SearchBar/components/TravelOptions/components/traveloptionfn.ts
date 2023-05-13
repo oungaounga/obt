@@ -57,6 +57,4 @@ export const insideEffect = async () => {
   fetchAndCreateArray(autocompleteCities, autocompapi)
   fetchAndCreateArray(firstClickCities, firstclickapi)
   fetchAndCreateArray(secondClickCities, secondclickapi)
-  allDestinations = await autocompleteCities.concat(firstClickCities)
-  allDestinations = await allDestinations.concat(secondClickCities)
 }

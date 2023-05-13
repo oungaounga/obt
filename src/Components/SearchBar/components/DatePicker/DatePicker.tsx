@@ -1,7 +1,6 @@
 /** @format */
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useRef} from 'react'
 import {BookOptionsContext} from '../../SearchBar'
-import {ToggleContext} from '../../../../App'
 import dayjs from 'dayjs'
 import {rightchevronIcon, leftchevronIcon} from '../../../icons'
 
@@ -10,9 +9,9 @@ const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
 //   functions
 
-const returnDayOfWeek = (input) => {
-  return week[input]
-}
+// const returnDayOfWeek = (input) => {
+//   return week[input]
+// }
 export const formatDateForInput = (date) => {
   return `${date.format('ddd')}, ${date.format('MMM')} ${date.format('DD')}`
 }
@@ -20,17 +19,15 @@ const formatDateForDatePickerHeader = (date) => {
   return `${date.format('MMM')} ${date.format('YYYY')}`
 }
 const isPast = (date) => today.diff(date, 'd') >= 0
-// const isToday = (date) => today.diff(date, 'd') == 0
-const isToday = (date) => {
-  return today.format('DD/MM/YYYY') == date.format('DD/MM/YYYY')
-}
-const isWeekend = (date) => {
-  let compare = date.format('ddd').toUpperCase()
-  return compare === week[0] || compare === week[6]
-}
+// const isToday = (date) => {
+//   return today.format('DD/MM/YYYY') == date.format('DD/MM/YYYY')
+// }
+// const isWeekend = (date) => {
+//   let compare = date.format('ddd').toUpperCase()
+//   return compare === week[0] || compare === week[6]
+// }
 const generateDate = (month = dayjs().month(), year = dayjs().year()) => {
   let refferedMonth = dayjs().year(year).month(month)
-  // let refferedDay = refferedMonth.date()
   let firstDayOfMonth = refferedMonth.startOf('month')
   let lastDayOfMonth = refferedMonth.endOf('month')
   let realToday = dayjs()
@@ -47,29 +44,19 @@ function MakeCalendar() {
   const [travelDate, setTravelDate] = useState(today)
   const [calendarMonth, setCalendarMonth] = useState(today)
   const {bookOptions, setBookOptions} = useContext(BookOptionsContext)
-  const {toggle, setToggle} = useContext(ToggleContext)
-  const month = bookOptions.departureDate.month()
+
   const date = generateDate(calendarMonth.month())
   const v = date[1]
   const calendarTitle = date[3]
-  const colStart = `col-start-${v[0].$W + 1}`
   const date2 = generateDate(calendarMonth.month() + 1)
   const v2 = date2[1]
   const calendarTitle2 = date2[3]
-  const colStart2 = `col-start-${v2[0].$W + 1}`
+
   return (
     <>
       <div
         id="calendar"
         className={`relative w-fit min-h-[18rem] flex gap-[2rem] text-[#132968] select-none `}
-        // onClick={(e) => {
-        //   e.target !== e.currentTarget && setToggle(0)
-        //   console.log(e.target)
-        //   console.log('event current target ?', e.currentTarget === 0)
-        // }}
-        onClick={(e) => {
-          // console.log('calendarMonth : ', )
-        }}
       >
         <div className={`flex flex-col bg-white `}>
           <div className="w-full flex justify-between">
@@ -88,7 +75,7 @@ function MakeCalendar() {
               {calendarTitle}{' '}
             </p>
             <div
-              className="cursor-pointer md:invisible bg-red-600"
+              className="cursor-pointer md:invisible"
               onClick={(e) => {
                 e.stopPropagation()
                 setCalendarMonth(dayjs().month(calendarMonth.month() + 1))
@@ -260,7 +247,10 @@ function MakeCalendar() {
 export default function DatePicker() {
   return (
     <>
-      <div className="absolute w-fit bg-white z-40 top-[3rem] md:left-[-8rem] lg:left-[-4rem] xl:left-[-14rem] grid justify-center content-center p-[1.5rem] rounded-xl shadow-2xl">
+      <div
+        id="dpicker"
+        className="absolute w-fit bg-white z-40 top-[3rem] md:left-[-8rem] lg:left-[-4rem] xl:left-[-14rem] grid justify-center content-center p-[1.5rem] rounded-xl shadow-2xl"
+      >
         <div className={`relative w-fit min-h-[18rem] flex text-[#132968] `}>
           <MakeCalendar />
         </div>

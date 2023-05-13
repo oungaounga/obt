@@ -1,5 +1,6 @@
 /** @format */
-import {useContext, useState} from 'react'
+import React, {useContext, useState, useRef} from 'react'
+import {CSSTransition} from 'react-transition-group'
 import {BookOptionsContext} from '../../../SearchBar'
 import {ToggleContext} from '../../../../../App'
 
@@ -16,6 +17,7 @@ export default function Passengers(props) {
   const {toggle, setToggle} = useContext(ToggleContext)
   const {bookOptions: data, setBookOptions: set} =
     useContext(BookOptionsContext)
+  const ref = useRef()
   const adultChevron = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -70,11 +72,7 @@ export default function Passengers(props) {
         ? `${sumCards} Discount card${sumCards > 1 ? 's' : ' '}`
         : 'No discount cards'
     }`
-    const c0 =
-      data.passengers.adult.length !== 0 &&
-      data.passengers.youth.length !== 0 &&
-      data.passengers.senior.length !== 0
-    //c1 Adults
+    const c0 = psum === 0
     const c1 =
       data.passengers.adult.length !== 0 &&
       data.passengers.youth.length === 0 &&
@@ -99,6 +97,10 @@ export default function Passengers(props) {
       data.passengers.adult.length === 0 &&
       data.passengers.youth.length === 0 &&
       data.passengers.senior.length === 0
+    const c7 =
+      data.passengers.adult.length !== 0 &&
+      data.passengers.youth.length !== 0 &&
+      data.passengers.senior.length === 0
 
     switch (true) {
       case c0:
@@ -115,26 +117,9 @@ export default function Passengers(props) {
         return `${psum} Passengers, ${cardsString}`
       case c6:
         return `No passengers`
+      case c7:
+        return `${psum} Passengers, ${cardsString}`
     }
-
-    //   if (
-    //     data.passengers.adult.length !== 0 &&
-    //     data.passengers.youth.length !== 0 &&
-    //     data.passengers.senior.length !== 0
-    //   ) {
-    //     let sum = sumDiscountCards()
-    //     let string2 = `${
-    //       sumDiscountCards() === 1 ? '1 Discount Card' : `${sum} discount cards`
-    //     }`
-    //     let string = `${
-    //       data.passengers.adult.length +
-    //       data.passengers.youth.length +
-    //       data.passengers.senior.length
-    //     } passengers, ${sumDiscountCards() ? string2 : 'No discount cards'} `
-    //     return string
-    //   } else {
-    //     return '1 passenger, No discount Cards'
-    //   }
   }
   return (
     <div
@@ -148,23 +133,23 @@ export default function Passengers(props) {
         className="inline hover:cursor-pointer text-sm text-[#132968]"
         onClick={(e) => {
           e.stopPropagation()
-          setToggle(
-            toggle !== 5 && 5
-
-            //   {
-            //   oneWay: false,
-            //   adult: !toggle.adult,
-            // }
-          )
+          setToggle(toggle !== 5 && 5)
         }}
       >
         {title}
       </span>
       {adultChevron}
-      {toggle === 5 && (
+      <CSSTransition
+        nodeRef={ref}
+        in={toggle === 5}
+        timeout={300}
+        classNames="fallfade"
+        unmountOnExit
+      >
         <div
           id="personConfig"
-          className="absolute select-none top-[1.5rem] p-[1rem] w-[22rem] bg-white rounded text-black z-40 shadow-lg"
+          className="absolute select-none top-[1.5rem] p-[1rem] w-[22rem] bg-white rounded-xl text-black z-40 shadow-lg"
+          ref={ref}
         >
           <div className="flex flex-col gap-3 divide-y divide-y-neutral-300">
             <div className="flex justify-between items-center">
@@ -179,7 +164,7 @@ export default function Passengers(props) {
                     e.stopPropagation()
                     data.passengers.adult.pop()
                     set({...data})
-                    makeTitle()
+                    setTitle(makeTitle())
                   }}
                 >
                   <MinusIcon
@@ -213,6 +198,7 @@ export default function Passengers(props) {
                     } else {
                       console.log('to much passengers')
                     }
+                    setTitle(makeTitle())
                   }}
                 >
                   <PlusIcon
@@ -240,6 +226,7 @@ export default function Passengers(props) {
                     e.stopPropagation()
                     let push = data.passengers.youth.pop()
                     set({...data, push})
+                    setTitle(makeTitle())
                   }}
                 >
                   <MinusIcon
@@ -273,6 +260,7 @@ export default function Passengers(props) {
                     } else {
                       console.log('to much passengers')
                     }
+                    setTitle(makeTitle())
                   }}
                 >
                   <PlusIcon
@@ -300,6 +288,7 @@ export default function Passengers(props) {
                     e.stopPropagation()
                     let push = data.passengers.senior.pop()
                     set({...data, push})
+                    setTitle(makeTitle())
                   }}
                 >
                   <MinusIcon
@@ -333,6 +322,7 @@ export default function Passengers(props) {
                     } else {
                       console.log('to much passengers')
                     }
+                    setTitle(makeTitle())
                   }}
                 >
                   <PlusIcon
@@ -358,7 +348,7 @@ export default function Passengers(props) {
             </div>
           </div>
         </div>
-      )}
+      </CSSTransition>
     </div>
   )
 }

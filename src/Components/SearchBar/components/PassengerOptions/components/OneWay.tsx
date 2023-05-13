@@ -1,5 +1,6 @@
 /** @format */
-import {useContext} from 'react'
+import React, {useContext, useRef} from 'react'
+import {CSSTransition} from 'react-transition-group'
 import {BookOptionsContext} from '../../../SearchBar'
 import {formatDateForInput} from '../../DatePicker/DatePicker'
 import {ToggleContext} from '../../../../../App'
@@ -7,11 +8,10 @@ import {CheckIcon} from '../../../../icons'
 import dayjs from 'dayjs'
 
 export default function OneWay(props) {
-  // const {toggle, setToggle} = props.toggle
   const {toggle, setToggle} = useContext(ToggleContext)
   const {bookOptions: data, setBookOptions: set} =
     useContext(BookOptionsContext)
-
+  const ref = useRef(null)
   const oneWayChevron = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -48,12 +48,21 @@ export default function OneWay(props) {
         {data.roundtrip ? 'Round trip' : 'One-way'}
       </p>
       {oneWayChevron}
-      {toggle === 4 && (
-        <div className="absolute select-none top-[1.5rem] w-[8rem] bg-white rounded text-black z-40 shadow-lg">
+      <CSSTransition
+        nodeRef={ref}
+        in={toggle === 4}
+        timeout={300}
+        classNames="fallfade"
+        unmountOnExit
+      >
+        <div
+          className="absolute select-none top-[1.5rem] w-[8rem] bg-white rounded text-black z-40 shadow-lg"
+          ref={ref}
+        >
           <div
             className="flex hover:bg-neutral-200 w-full pl-[0.5rem] pr-[1rem] p-[0.5rem] gap-[3px] h-fit rounded-t-md"
             onClick={() => {
-              set({...data, roundtrip: false})
+              set({...data, roundtrip: false, return: '', rDateObj: {}})
             }}
           >
             <CheckIcon
@@ -90,7 +99,7 @@ export default function OneWay(props) {
             </p>
           </div>
         </div>
-      )}
+      </CSSTransition>
     </div>
   )
 }

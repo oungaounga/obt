@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 // components
 import PassengerOptions from './components/PassengerOptions/PassengerOptions'
 import TravelOptions from './components/TravelOptions/TravelOptions'
+import TransitTest from '../../TransitTest'
 
 import {formatDateForInput} from './components/DatePicker/DatePicker'
 // const today = dayjs()
@@ -31,13 +32,14 @@ export default function SearchBar(props) {
     <>
       <div
         id="searchBar"
-        className="relative z-10 flex w-screen  justify-center"
+        className="relative z-10 flex w-screen justify-center"
       >
-        <div className="h-full w-screen  bg-white rounded-md shadow-2xl max-w-[95vw] xl:max-w-[75vw] flex flex-col gap-[1rem] p-[1rem]">
+        <div className="h-full w-screen  bg-white rounded-xl shadow-2xl max-w-[95vw] xl:max-w-[75vw] flex flex-col gap-[1rem] p-[1rem]">
           <BookOptionsContext.Provider value={{bookOptions, setBookOptions}}>
             <PassengerOptions />
             <TravelOptions />
           </BookOptionsContext.Provider>
+
           {/* <div className="bg-neutral-200 gap-2 p-[2rem] mt-[1rem] rounded-md shadow-2xl flex">
             <button
               className="bg-green-500 rounded-md text-xl w-fit font-bold shadow-md p-[0.5rem] pl-[1rem] pr-[1rem]"

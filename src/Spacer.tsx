@@ -5,7 +5,6 @@ const Space = ({cN}) => {
   return (
     <div className={cN}>
       <span>
-        hello
         <br />{' '}
       </span>
     </div>

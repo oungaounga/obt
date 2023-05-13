@@ -19,3 +19,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.fallfade-enter {
+  opacity: 0;
+  transform: translateY(-1rem);
+}
+.fallfade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 200ms;
+}
+.fallfade-exit {
+  opacity: 1;
+}
+.fallfade-exit-active {
+  opacity: 0;
+  transform: translateY(-1rem);
+  transition: all 200ms;
+}
+
+.mybutt {
+  transform: translateY(-1rem);
+}

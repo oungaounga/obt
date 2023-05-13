@@ -1,5 +1,6 @@
 /** @format */
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
+import {CSSTransition} from 'react-transition-group'
 
 //----------Icons--------------//
 const downChevronIcon = (
@@ -25,6 +26,8 @@ const americanFlag = (
     src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/512px-Flag_of_the_United_States.svg.png"
   />
 )
+
+// vars for animations ---------------------------------------//
 
 //-----------UI static data for pop overs------------//
 const trainsPopOverList = [
@@ -90,15 +93,11 @@ const ferriessPopOverList = [
 ]
 
 //-- Function to render pop overs on hovers for this components ---//
-const createPopOver = (list, setS, S, whichFalse, title?: string) => {
+const createPopOver = (list, setS, S, whichFalse, ref, title?: string) => {
   return (
     <div
-      className="absolute top-[1.5rem] bg-white rounded-md shadow-md z-20 text-[#132968] text-lg font-bold min-w-[16rem]"
-      onMouseLeave={() => {
-        let newS = {...S}
-        newS[whichFalse] = false
-        setS(newS)
-      }}
+      className="absolute bg-white rounded-md shadow-md z-20 text-[#132968] text-lg font-bold min-w-[16rem]"
+      ref={ref}
     >
       {title && (
         <p className="pt-[0.7rem] pl-[0.8rem] hover:bg-neutral-200 rounded-t-md">
@@ -131,6 +130,10 @@ export default function Navbar(props) {
     flights: false,
     ferries: false,
   })
+  const trains = useRef(null)
+  const buses = useRef(null)
+  const flights = useRef(null)
+  const ferries = useRef(null)
 
   //elements for popovers
   const popOverTrains = createPopOver(
@@ -138,38 +141,54 @@ export default function Navbar(props) {
     setCommutesPopOver,
     commutesPopOver,
     'trains',
+    trains,
     'Night trains'
   )
   const popOverBuses = createPopOver(
     busesPopOverList,
     setCommutesPopOver,
     commutesPopOver,
-    'buses'
+    'buses',
+    buses
   )
   const popOverFlights = createPopOver(
     flightsPopOverList,
     setCommutesPopOver,
     commutesPopOver,
     'flights',
+    flights,
     'Flight Cancellations'
   )
   const popOverFerries = createPopOver(
     ferriessPopOverList,
     setCommutesPopOver,
     commutesPopOver,
-    'ferries'
+    'ferries',
+    ferries
   )
 
   return (
     <div
       id="navbar"
-      className="z-40 relative  text-white flex flex-col lg:items-center"
+      className="z-40 relative   text-white flex flex-col lg:items-center"
     >
-      <div className="flex max-w-[75vw] justify-between p-[1rem] xl:w-[75vw] ">
-        <div className="flex gap-6">
+      <div className="flex max-w-[75vw]  justify-between p-[1rem] xl:w-[75vw] ">
+        <div className="flex gap-6 ">
           <span className="text-4xl font-bold  ">omio</span>
-          <div className="flex justify-between hidden lg:flex items-center text-sm gap-4">
-            <div className="relative">
+          <div className="flex justify-between hover:cursor-pointer hidden lg:flex items-center text-sm gap-4">
+            <div
+              className="relative h-fit w-fit"
+              onMouseLeave={(e) => {
+                e.stopPropagation()
+                setCommutesPopOver({
+                  ...commutesPopOver,
+                  trains: false,
+                  // buses: false,
+                  // flights: false,
+                  // ferries: false,
+                })
+              }}
+            >
               <span
                 className="hover:cursor-pointer"
                 onMouseEnter={() => {
@@ -184,9 +203,28 @@ export default function Navbar(props) {
               >
                 Trains
               </span>
-              {commutesPopOver.trains && popOverTrains}
+
+              <CSSTransition
+                nodeRef={trains}
+                in={commutesPopOver.trains}
+                timeout={300}
+                classNames="fallfade"
+                unmountOnExit
+              >
+                {popOverTrains}
+              </CSSTransition>
             </div>
-            <div className="relative">
+
+            <div
+              className="relative"
+              onMouseLeave={(e) => {
+                e.stopPropagation()
+                setCommutesPopOver({
+                  ...commutesPopOver,
+                  buses: false,
+                })
+              }}
+            >
               <span
                 className="hover:cursor-pointer"
                 onMouseEnter={() => {
@@ -201,9 +239,26 @@ export default function Navbar(props) {
               >
                 Buses
               </span>
-              {commutesPopOver.buses && popOverBuses}
+              <CSSTransition
+                nodeRef={buses}
+                in={commutesPopOver.buses}
+                timeout={300}
+                classNames="fallfade"
+                unmountOnExit
+              >
+                {popOverBuses}
+              </CSSTransition>
             </div>
-            <div className="relative">
+            <div
+              className="relative"
+              onMouseLeave={(e) => {
+                e.stopPropagation()
+                setCommutesPopOver({
+                  ...commutesPopOver,
+                  flights: false,
+                })
+              }}
+            >
               <span
                 className="hover:cursor-pointer"
                 onMouseEnter={() => {
@@ -218,9 +273,27 @@ export default function Navbar(props) {
               >
                 Flights
               </span>
-              {commutesPopOver.flights && popOverFlights}
+
+              <CSSTransition
+                nodeRef={flights}
+                in={commutesPopOver.flights}
+                timeout={300}
+                classNames="fallfade"
+                unmountOnExit
+              >
+                {popOverFlights}
+              </CSSTransition>
             </div>
-            <div className="relative">
+            <div
+              className="relative"
+              onMouseLeave={(e) => {
+                e.stopPropagation()
+                setCommutesPopOver({
+                  ...commutesPopOver,
+                  ferries: false,
+                })
+              }}
+            >
               <span
                 className="hover:cursor-pointer"
                 onMouseEnter={() => {
@@ -235,7 +308,15 @@ export default function Navbar(props) {
               >
                 Ferries
               </span>
-              {commutesPopOver.ferries && popOverFerries}
+              <CSSTransition
+                nodeRef={ferries}
+                in={commutesPopOver.ferries}
+                timeout={300}
+                classNames="fallfade"
+                unmountOnExit
+              >
+                {popOverFerries}
+              </CSSTransition>{' '}
             </div>
           </div>
         </div>
