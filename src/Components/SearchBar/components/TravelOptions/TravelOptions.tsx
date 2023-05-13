@@ -1,7 +1,7 @@
 /** @format */
 
-import React, {useState, useContext} from 'react'
-import DatePicker, {formatDateForInput} from '../DatePicker/DatePicker'
+import React, {useState, useContext, useEffect} from 'react'
+import DatePicker from '../DatePicker/DatePicker'
 import {BookOptionsContext} from '../../SearchBar'
 import {ToggleContext} from '../../../../App'
 import CityChoice from './components/CityChoice'
@@ -9,8 +9,15 @@ import CityChoice from './components/CityChoice'
 import {ac} from '../../../../autoC'
 
 import {
+  autocompleteCities,
+  firstClickCities,
+  secondClickCities,
+  insideEffect,
+  allDestinations,
+} from './components/traveloptionfn'
+
+import {
   circleIcon,
-  updownarrowsIcon,
   toggleIcon,
   positionIcon,
   calendarIcon,
@@ -37,20 +44,18 @@ const allCities = [
 
 export default function TravelOptions() {
   const {bookOptions, setBookOptions} = useContext(BookOptionsContext)
-  const [pickDate, setPickDate] = useState(false)
   const {toggle, setToggle} = useContext(ToggleContext)
-  // const [toggle, setToggle] = useState(0)
-  const [input, setInput] = useState({
-    from: '',
-    to: '',
-  })
-  const [cities, setCities] = useState([
-    'Paris, Île-de-France, France',
-    'Londres, England, United Kingdom',
-    'Saint-Jean-de-Luz, Nouvelle-Aquitaine, France',
-    "Marseille, Provence-Alpes-Côte d'Azur, France",
-    'Montpellier, Occitanie, France',
-  ]) //useEffect pour load les villes
+
+  useEffect(() => {
+    insideEffect()
+    console.log('all destinations', firstClickCities)
+  }, [])
+  const [cities, setCities] = useState(firstClickCities)
+
+  //didn't add a form, but would have if I had to send data somewhere
+  //since I only interact with state, didn't use a form, most data dont
+  //come from inputs
+
   return (
     <>
       <div
@@ -68,7 +73,7 @@ export default function TravelOptions() {
             placeholder="from: City, Station or Airport"
             onChange={(e) => {
               setBookOptions({...bookOptions, travelfrom: e.target.value})
-              setCities(ac(e.target.value, allCities))
+              setCities(ac(e.target.value, allDestinations))
               console.log(
                 'from ',
                 bookOptions.travelfrom,
@@ -110,6 +115,7 @@ export default function TravelOptions() {
             }}
             onClick={(e) => {
               e.stopPropagation()
+              setCities(secondClickCities)
               setToggle(toggle !== 2 ? 2 : 0)
             }}
             // onFocus={(e) => {
@@ -140,7 +146,6 @@ export default function TravelOptions() {
                 value={bookOptions.departure}
                 onClick={(e) => {
                   e.stopPropagation()
-                  // setPickDate(true)
                   setToggle(3)
                 }}
               />
@@ -155,7 +160,6 @@ export default function TravelOptions() {
               className=" inline-block truncate bg-inherit w-[7rem] h-[3rem] md:w-[3rem] lg:w-auto text-right md:text-center rounded-r-md"
               onClick={(e) => {
                 e.stopPropagation()
-                // setPickDate(true)
                 setToggle(3)
               }}
               value={bookOptions.return}

@@ -1,96 +1,115 @@
 /** @format */
 
 // import {fetchCities} from './Foo'
-import React, {ReactNode, useState, createContext} from 'react'
+import React, {ReactNode, useState, createContext, useEffect} from 'react'
 import SearchBar from './Components/SearchBar/SearchBar'
 import Heading from './Components/Heading'
 import {Spacer} from './Spacer'
 import {fetchCities, autoComplete, handleSubmit, matchCities} from './autoC'
-import {fetchAllApis, popularCities, getLocalNameArray} from './actions'
+import {
+  fetchAllApis,
+  popularCities,
+  getLocalNameArray,
+  firstApi as acApi,
+  secondApi as coneapi,
+  thirdApi as ctwoapi,
+  fetcher,
+} from './actions'
 import './App.css'
 import Banner from './Components/Banner'
 import Navbar from './Components/Navbar'
 
+function filterPopular(v) {
+  for (let i = 0; i < v.length; i++) {
+    for (let j = 0; j < v.length; j++) {
+      if (v[i].nb_search < v[j].nb_search) {
+        let a = v[i]
+        v[i] = v[j]
+        v[j] = a
+      }
+    }
+  }
+}
+function spliceFrom(v, from) {
+  v.splice(v.indexOf(from), 1)
+}
+
 export const ToggleContext = createContext(null)
 
 function App() {
-  // fetchCities()
   const [toggle, setToggle] = useState(0)
+  const apis = [coneapi, ctwoapi, acApi]
+  // const popular: {local_name : string, nb_search : number}[]
+  const popular = ['']
+  const autocomplete = []
+  const firstClick = []
+  const secondClick = []
+  //objectif, fetch les villes
+  // pour les plus populaires, je fais un array
+  // pour l'autocomplete, je prend le tout
+  // besoin que du local name pour display
+  // pour les villes en P j'ai besoin que du local Name
+  // pour les autres, je prend le local name et nb_search
 
-  fetchAllApis()
-  const [cities, setCities] = useState<string[] | null>(null)
-  const renderCities = cities?.map((item, index) => <li key={index}>{item}</li>)
-  const renderList = (list: string[]): ReactNode => {
-    console.log('called')
-    return list.map((item) => {
-      return <li>{item}</li>
+  //fetcher c'est fetch mais je saute (typing wise) les 2 then
+  //je remarque qu'il y pas de nb_search dans les villes en P
+  //
+
+  useEffect(() => {
+    fetcher(coneapi).then((result) => {
+      result.forEach((item) => {
+        firstClick.push(item.local_name)
+      })
     })
-  }
-  // bg-auto bg-top bg-contain
-  return (
-    // <div className="relative flex flex-col justify-center w-screen h-screen">
-    //   <div
-    //     className="absolute top-0 left-0 w-[100vw] h-[20rem] bg-no-repeat z-0"
-    //     style={{
-    //       backgroundImage: 'url(./omiobg.jpg)',
-    //       backgroundSize: 'contain',
-    //     }}
-    //     id="banner"
-    //   >
-    //     <p className="m-[1rem] ml-[12rem] text-5xl font-black text-[#132968]">
-    //       omio
-    //     </p>
-    //   </div>
-    //   <div className="flex justify-center">
-    //     <div className="flex flex-col w-[75%]">
-    //       {/* <form onSubmit={handleSubmit}>
-    //       <input
-    //         className="w-fit m-[1rem] p-[1rem]"
-    //         type="input"
-    //         placeholder="From ? "
-    //         onChange={(e) => {
-    //           console.log(e.target.value)
-    //           setCities(matchCities(e.target.value))
-    //         }}
-    //         onClick={(e) => {
-    //           setCities(getLocalNameArray(popularCities)) //cet array devrait être classé par popularité
-    //         }}
-    //       />
-    //       <input
-    //         className="w-fit m-[1rem] p-[1rem]"
-    //         type="text"
-    //         placeholder="To ? "
-    //         onChange={(e) => {
-    //           console.log(e.target.value)
-    //           setCities(matchCities(e.target.value))
-    //         }}
-    //         onClick={(e) => {
-    //           setCities(getLocalNameArray(popularCities)) //cet array devrait être classé par popularité
-    //         }}
-    //         onMouseUp={() => {
-    //           console.log('mouse up')
-    //           setCities([''])
-    //         }}
-    //       />
-    //     </form>
-    //     <div className="m-[1rem] p-[1rem] w-fit border-solid broder-white border-2">
-    //       <ul className="text-white">{cities ? renderList(cities) : null}</ul>
-    //     </div>
-    //     <SearchBar /> */}
-    //       <SearchBarNR className="bg-white shadow-md z-40" />
+    fetcher(ctwoapi).then((result) => {
+      result.forEach((item) => {
+        secondClick.push(item.local_name)
+      })
+    })
+    fetcher(acApi).then((result) => {
+      result.forEach((item) => {
+        autocomplete.push(item.local_name)
+      })
+    })
 
-    //       {/* <TwoDatePickers className="mt-[3rem]" /> */}
-    //     </div>
-    //   </div>
-    // </div>
+    apis.forEach((api) => {
+      fetcher(api).then((result) => {
+        console.log('results', result)
+        // result.forEach((item) => {
+        //   'nb_search' in item
+        //     ? popular.push({
+        //         local_name: item.local_name,
+        //         nb_search: item.nb_search,
+        //       })
+        //     : autocomplete.push(item)
+        // })
+      })
+    })
+    console.log('popular ', popular)
+    console.log('autcomplete ', autocomplete)
+    for (let i = 0; i <= popular.length; i++) {
+      for (let j = 0; j <= popular.length; i++) {
+        if (popular[i].local_name === popular[j].local_name) {
+          popular.splice(i, 1)
+          break
+        }
+      }
+    }
+    console.log('c 1', firstClick)
+    console.log('c 2', secondClick)
+    console.log('c 1', autocomplete)
+
+    // filterPopular(popular)
+    // console.log('popular après filterPopular', popular)
+  }, [])
+
+  return (
     <ToggleContext.Provider value={{toggle, setToggle}}>
       <div
         id="background"
-        className="w-[100vw] h-[99vh] z-0 "
+        className="w-[100vw] h-[99vh] relative z-0 "
         onClick={(e) => {
           e.stopPropagation()
-          // if (!e.currentTarget.attributes.class.nodeValue.includes('z-40')) {
-          // }
           setToggle(0)
         }}
       >

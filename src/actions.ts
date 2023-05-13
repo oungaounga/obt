@@ -33,7 +33,7 @@ export interface autoCompleteCity {
 }
 export interface City {
   unique_name: string
-  local_name: string
+  local_name?: string
   nb_search?: number
 }
 
@@ -58,6 +58,18 @@ function arrangeCities(v: popularCity[]) {
     }
   }
 }
+
+// export function filterPopular(v) {
+//   for (let i = 0; i < v.length; i++) {
+//     for (let j = 0; j < v.length; j++) {
+//       if (v[i].nb_search < v[j].nb_search) {
+//         let a = v[i]
+//         v[i] = v[j]
+//         v[j] = a
+//       }
+//     }
+//   }
+// }
 
 // let citiesArr: {local_name: string; nb_search: number}[] = []
 
@@ -92,7 +104,7 @@ export const extractScores = (array: popularCity[] | void) => {
   }
 }
 
-const fetcher = async (adress: string) => {
+export const fetcher = async (adress: string) => {
   const response = await fetch(adress)
   const result = await response.json()
   return result
@@ -109,15 +121,15 @@ export const makeCitiesArrayFromFetch = (v: popularCity[], target: City[]) => {
   })
 }
 
-export const getLocalNameArray = (cityList: City[]) => {
-  const target: string[] = []
-  cityList.forEach((item) => {
-    target.push(item.local_name)
-  })
-  console.log('target', target)
-  console.log('cityList', cityList)
-  return target
-}
+// export const getLocalNameArray = (cityList: City[]) => {
+//   const target: string[] = []
+//   cityList.forEach((item) => {
+//     target.push(item.local_name)
+//   })
+//   console.log('target', target)
+//   console.log('cityList', cityList)
+//   return target
+// }
 //use case :
 //  cities = getLocalNameArray(popularCities)
 // cities = getLocalNameArray(po)
@@ -125,12 +137,15 @@ export const getLocalNameArray = (cityList: City[]) => {
 export const fetchAllApis = () => {
   fetcher(secondApi).then((result) => {
     makeCitiesArrayFromFetch(result, popularCities)
+    console.log('first api', result)
   })
   fetcher(thirdApi).then((result) => {
     makeCitiesArrayFromFetch(result, popularCitiesFromParis)
+    console.log('second api', result)
   })
   fetcher(firstApi).then((result) => {
     makeCitiesArrayFromFetch(result, autocompleteCities)
+    console.log('third api', result)
   })
 }
 
