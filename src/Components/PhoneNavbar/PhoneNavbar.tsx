@@ -3,10 +3,10 @@ import {CSSTransition} from 'react-transition-group'
 import {useRef, useContext, useState} from 'react'
 import SlidePanel from './components/SlidePanel'
 import ControlPanel from './components/ControlPanel'
-import {ListPanel, currencies} from './components/ListPanel'
+import {ListPanel, currencies, languages} from './components/ListPanel'
 
 import {ToggleContext} from '../../App'
-import {closeIcon} from '../icons'
+import {closeIcon, signalIcon} from '../icons'
 import {rightchevronIcon} from '../icons'
 
 const TestP = ({ref, set, obj, openkey, closekey, name}) => {
@@ -103,6 +103,10 @@ export default function PhoneNavbar(props) {
             ref={ref0}
           >
             <ControlPanel which={{panel, setPanel}} />
+
+            <div className="w-full  flex flex-col bg-white justify-between items-center p-[0.5rem] pl-[1rem] pr-[1rem]">
+              <div className="flex w-full justify-between"></div>
+            </div>
           </div>
         </>
       </CSSTransition>
@@ -112,6 +116,15 @@ export default function PhoneNavbar(props) {
         render={() => {
           return (
             <ListPanel ref={ref1} list={currencies} which={{panel, setPanel}} />
+          )
+        }}
+      />
+      <SlidePanel
+        ref={ref2}
+        in={panel === 2}
+        render={() => {
+          return (
+            <ListPanel ref={ref2} list={languages} which={{panel, setPanel}} />
           )
         }}
       />

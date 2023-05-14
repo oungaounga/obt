@@ -1,4 +1,7 @@
 /** @format */
+import img1 from '../media/omiobg.jpg'
+import img2 from '../media/bglg.jpg'
+import img3 from '../media/bgxl.jpg'
 
 export default function Banner() {
   return (
@@ -8,23 +11,20 @@ export default function Banner() {
       bg-center absolute justify-center overflow-hidden z-0"
     >
       <img
-        src="../media/omiobg.jpg"
+        src={img1}
         alt="background"
         className="hidden xl:block omio background"
       />
+
       {/* <img src="./bgsm.jpg" alt="omio background" className="sm:hidden" /> */}
       {/* <img
         src="./bgmd.jpg"
         alt="omio background"
         className="hidden md:max-lg:inline-block"
       /> */}
+      <img src={img2} alt="omio background" className="lg:hidden" />
       <img
-        src="../media/bglg.jpg"
-        alt="omio background"
-        className="lg:hidden"
-      />
-      <img
-        src="./bgxl.jpg"
+        src={img3}
         alt="omio background"
         className="hidden lg:max-xl:inline-block left-0"
       />

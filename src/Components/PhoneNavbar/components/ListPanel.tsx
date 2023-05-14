@@ -23,6 +23,18 @@ export const currencies = [
   {title: 'SEK', icon: signalIcon},
 ]
 
+export const languages = [
+  {title: 'Language', icon: signalIcon},
+  {title: 'English (US)', icon: signalIcon},
+  {title: 'Dansk', icon: signalIcon},
+  {title: 'Deutsch', icon: signalIcon},
+  {title: 'English (UK)', icon: signalIcon},
+  {title: 'Español', icon: signalIcon},
+  {title: 'Suomi', icon: signalIcon},
+  {title: 'Français', icon: signalIcon},
+  {title: 'Italiano', icon: signalIcon},
+]
+
 export const ListPanel = ({ref, list, which}) => {
   const {panel, setPanel} = which
   return (

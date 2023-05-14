@@ -97,14 +97,6 @@ export default function TravelOptions() {
         <DateInput />
         <SearchButton />
         <FindAccomodation />
-        <button
-          onClick={(e) => {
-            e.stopPropagation()
-            console.log(alldestinations)
-          }}
-        >
-          AllDestination
-        </button>
       </div>
     </>
   )

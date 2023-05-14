@@ -42,7 +42,7 @@ export default function SearchBar(props) {
             <TravelOptions />
           </BookOptionsContext.Provider>
 
-          <div className="bg-neutral-200 gap-2 p-[2rem] mt-[1rem] rounded-md shadow-2xl flex">
+          {/* <div className="bg-neutral-200 gap-2 p-[2rem] mt-[1rem] rounded-md shadow-2xl flex">
             <button
               className="bg-green-500 rounded-md text-xl w-fit font-bold shadow-md p-[0.5rem] pl-[1rem] pr-[1rem]"
               onClick={() => {
@@ -66,7 +66,7 @@ export default function SearchBar(props) {
                 })}
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
