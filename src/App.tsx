@@ -20,21 +20,6 @@ import {Spacer} from './Components/Spacer'
 import Banner from './Components/Banner'
 import Navbar from './Components/Navbar'
 
-function filterPopular(v) {
-  for (let i = 0; i < v.length; i++) {
-    for (let j = 0; j < v.length; j++) {
-      if (v[i].nb_search < v[j].nb_search) {
-        let a = v[i]
-        v[i] = v[j]
-        v[j] = a
-      }
-    }
-  }
-}
-function spliceFrom(v, from) {
-  v.splice(v.indexOf(from), 1)
-}
-
 export const ToggleContext = createContext(null)
 
 function App() {

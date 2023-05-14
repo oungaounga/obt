@@ -21,28 +21,30 @@ export default function ToCityInput({city, suggestions}) {
   const {cities, setCities} = city
   const [popular, alldestinations] = suggestions
 
+  const handleClick = (e) => {
+    e.stopPropagation()
+    e.currentTarget.childNodes[1].focus()
+    setCities(popular)
+    setToggle(toggle !== 1 ? 1 : 0)
+  }
+  const handleChange = (e) => {
+    setBookOptions({...bookOptions, travelfrom: e.target.value})
+    setCities(ac(e.target.value, alldestinations))
+  }
+
   return (
     <>
       <div
         id="from"
         className="relative md:shrink bg-neutral-100 flex sm:max-md:max-w-1/5 w-full md:w-fit p-[0.5rem] h-[3rem] rounded-md hover:ring-neutral-300 hover:ring-[1px] hover:ring-inset"
-        onClick={(e) => {
-          e.stopPropagation()
-          e.currentTarget.childNodes[1].focus()
-          setCities(popular)
-          setToggle(toggle !== 1 ? 1 : 0)
-        }}
+        onClick={handleClick}
       >
         {circleIcon}
         <input
           type="text"
           className="bg-inherit pl-1 pr-1 md:max-lg:w-[7rem] truncate focus:outline-none"
           placeholder="from: City, Station or Airport"
-          // this shows popular cities
-          onChange={(e) => {
-            setBookOptions({...bookOptions, travelfrom: e.target.value})
-            setCities(ac(e.target.value, alldestinations))
-          }}
+          onChange={handleChange}
           value={bookOptions.travelfrom}
         />
         {toggle === 1 && (

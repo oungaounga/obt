@@ -45,6 +45,9 @@ export const matchCities = (input: string): string[] => {
   return result
 }
 
+/**TODO :
+ * when I type P, need the most popular city which name start with a P
+ */
 export const ac = (input: string, list: string[], from?: string): string[] => {
   let result: string[] = []
   list.forEach((item) => {
@@ -112,4 +115,19 @@ export const autoComplete = (input: string, output: string) => {
 export const handleSubmit = (e: Event) => {
   e.preventDefault()
   console.log('submited')
+}
+
+export function filterPopular(v: popularCity[]) {
+  for (let i = 0; i < v.length; i++) {
+    for (let j = 0; j < v.length; j++) {
+      if (v[i].nb_search < v[j].nb_search) {
+        let a = v[i]
+        v[i] = v[j]
+        v[j] = a
+      }
+    }
+  }
+}
+export function spliceFrom(v: string[], from: string) {
+  v.splice(v.indexOf(from), 1)
 }
