@@ -1,7 +1,4 @@
 /** @format */
-/**
- * TODO Add close date picker after date picked
- */
 
 import React, {useState, useContext, useRef} from 'react'
 import {BookOptionsContext} from '../../SearchBar'
@@ -12,33 +9,13 @@ import {rightchevronIcon, leftchevronIcon} from '../../../icons'
 const today = dayjs()
 const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
-//   functions
-
-// const returnDayOfWeek = (input) => {
-//   return week[input]
-// }
-function datepb() {
-  let today = dayjs()
-  let date = dayjs().date(13)
-  console.log('date :', date)
-  console.log('is before ? ', today.isBefore(date))
-  console.log('is same ? ', today.isSame(date))
-}
-
 export const formatDateForInput = (date) => {
   return `${date.format('ddd')}, ${date.format('MMM')} ${date.format('DD')}`
 }
 const formatDateForDatePickerHeader = (date) => {
   return `${date.format('MMM')} ${date.format('YYYY')}`
 }
-const isPast = (date) => today.diff(date, 'd') >= 0
-// const isToday = (date) => {
-//   return today.format('DD/MM/YYYY') == date.format('DD/MM/YYYY')
-// }
-// const isWeekend = (date) => {
-//   let compare = date.format('ddd').toUpperCase()
-//   return compare === week[0] || compare === week[6]
-// }
+
 const generateDate = (month = dayjs().month(), year = dayjs().year()) => {
   let refferedMonth = dayjs().year(year).month(month)
   let firstDayOfMonth = refferedMonth.startOf('month')
@@ -57,7 +34,7 @@ function MakeCalendar() {
   const [travelDate, setTravelDate] = useState(today)
   const [calendarMonth, setCalendarMonth] = useState(today)
   const {bookOptions, setBookOptions} = useContext(BookOptionsContext)
-  const {toggle} = useContext(ToggleContext)
+  const {toggle, setToggle} = useContext(ToggleContext)
 
   const date = generateDate(calendarMonth.month())
   const v = date[1]
@@ -139,14 +116,6 @@ function MakeCalendar() {
                       : 'hover:rounded-full hover:ring-[1px] hover:ring-[#132968] hover:ring-inset'
                   } `}
                   onClick={(e) => {
-                    /**
-                     * consider if its a departure or return
-                     * if its departure, is there a return ?
-                     *  if yes, item should be be fore return, or we fix departure at same date as return
-                     * else if its return :
-                     *  return should be after departure, else return set same day as departure
-                     *
-                     */
                     e.stopPropagation()
                     let prev = bookOptions
                     if (toggle === 3) {
@@ -162,6 +131,7 @@ function MakeCalendar() {
                               dDateObj: prev.rDateObj,
                               departure: formatDateForInput(prev.rDateObj),
                             })
+                        setToggle(0)
                       } else {
                         setBookOptions({
                           ...bookOptions,
@@ -173,14 +143,17 @@ function MakeCalendar() {
                       item.isAfter(bookOptions.dDateObj)
                         ? setBookOptions({
                             ...bookOptions,
+                            roundtrip: true,
                             rDateObj: item,
                             return: formatDateForInput(item),
                           })
                         : setBookOptions({
                             ...bookOptions,
+                            roundtrip: true,
                             rDateObj: prev.dDateObj,
                             return: formatDateForInput(prev.dDateObj),
                           })
+                      setToggle(0)
                     }
                   }}
                 >
@@ -247,7 +220,7 @@ function MakeCalendar() {
                             bookOptions.rDateObj &&
                             item.isBefore(bookOptions.rDateObj, 'd') &&
                             item.isAfter(bookOptions.dDateObj, 'd') &&
-                            'text-bg-slate-600 '
+                            'rounded-md m-[1px] bg-[#ACCEEF] font-bold text-[#132968]'
                           }
                           ${item.day() === 0 && 'font-bold'} 
                           ${item.day() === 6 && 'font-bold'}                  
@@ -257,14 +230,6 @@ function MakeCalendar() {
                               : 'hover:rounded-full hover:ring-[1px] hover:ring-[#132968] hover:ring-inset'
                           } `}
                     onClick={(e) => {
-                      /**
-                       * consider if its a departure or return
-                       * if its departure, is there a return ?
-                       *  if yes, item should be be fore return, or we fix departure at same date as return
-                       * else if its return :
-                       *  return should be after departure, else return set same day as departure
-                       *
-                       */
                       e.stopPropagation()
                       let prev = bookOptions
                       if (toggle === 3) {
@@ -280,6 +245,7 @@ function MakeCalendar() {
                                 dDateObj: prev.rDateObj,
                                 departure: formatDateForInput(prev.rDateObj),
                               })
+                          setToggle(0)
                         } else {
                           setBookOptions({
                             ...bookOptions,
@@ -291,14 +257,17 @@ function MakeCalendar() {
                         item.isAfter(bookOptions.dDateObj)
                           ? setBookOptions({
                               ...bookOptions,
+                              roundtrip: true,
                               rDateObj: item,
                               return: formatDateForInput(item),
                             })
                           : setBookOptions({
                               ...bookOptions,
+                              roundtrip: true,
                               rDateObj: prev.dDateObj,
                               return: formatDateForInput(prev.dDateObj),
                             })
+                        setToggle(0)
                       }
                     }}
                   >

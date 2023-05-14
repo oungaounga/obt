@@ -42,7 +42,7 @@ function App() {
     <ToggleContext.Provider value={{toggle, setToggle}}>
       <div
         id="background"
-        className="w-[100vw] h-[99vh] relative z-0 "
+        className="w-[100vw] h-[99vh] relative z-0 hover:cursor-default "
         onClick={(e) => {
           e.stopPropagation()
           setToggle(0)

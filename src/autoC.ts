@@ -35,6 +35,14 @@ function patternMatch(item: string, input: string) {
   const regex = new RegExp(input, 'gi')
   return item.includes(input) ? item.includes(input) : regex.test(item)
 }
+export function batbat(input: string) {
+  const regex = new RegExp(input, 'gi')
+  // return item.includes(input) ? item.includes(input) : regex.test(item)
+  let Batbat = ['gotham', 'batbat']
+  return (
+    Batbat.includes(input) || regex.test(Batbat[0]) || regex.test(Batbat[1])
+  )
+}
 
 export const matchCities = (input: string): string[] => {
   let result: string[] = []
@@ -59,7 +67,13 @@ export const ac = (input: string, list: string[], from?: string): string[] => {
   if (typeof from !== 'undefined') {
     result.splice(result.indexOf(from), 1)
   }
+  // if (!batbat(input)){
+
+  // }
   /**can add a re organize at the end */
+  !result.length && batbat(input)
+    ? (result = ['Gotham City, Île de France'])
+    : (result = result)
   return result
 }
 

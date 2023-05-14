@@ -2,7 +2,6 @@
 
 import {
   closeIcon,
-  rightchevronIcon,
   checkIcon,
   euroIcon,
   dollarIcon,
@@ -36,7 +35,7 @@ export const languages = [
 ]
 
 export const ListPanel = ({ref, list, which}) => {
-  const {panel, setPanel} = which
+  const {setPanel} = which
   return (
     <div
       ref={ref}
@@ -50,19 +49,16 @@ export const ListPanel = ({ref, list, which}) => {
                 {checkIcon}
               </div>
               <p
-                className={`text-[#132968]  ${
+                className={` text-[#132968]  ${
                   index === 0 ? 'text-xl font-bold' : 'text-md'
                 } ${index !== 0 && ' pl-[0.5rem]'}
                 ${index === 1 ? 'font-bold' : ''}`}
               >
                 {title}
               </p>
-              {/* <div className={`grid pl-[0.5rem] ${index === 0 && 'hidden'}`}>
-                {icon}
-              </div> */}
             </div>
             <div
-              className="w-fit m-[1rem]"
+              className="w-fit m-[1rem] hover:cursor-pointer"
               onClick={() => {
                 index === 0 && setPanel(0)
               }}

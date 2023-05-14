@@ -1,6 +1,5 @@
 /** @format */
 import {CSSTransition} from 'react-transition-group'
-import React, {useRef} from 'react'
 
 export default function SlidePanel(props) {
   return (
@@ -15,9 +14,3 @@ export default function SlidePanel(props) {
     </CSSTransition>
   )
 }
-
-/**
- *
- * <SlidePanel in={in} ref={ref} render={ (ref) => {
- *          <Panel ref={ref} />} }/>
- */

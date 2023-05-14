@@ -2,6 +2,8 @@
 
 import React, {useContext} from 'react'
 
+import {batbat} from '../../../../../autoC'
+
 /**Context */
 import {ToggleContext} from '../../../../../App'
 import {BookOptionsContext} from '../../../SearchBar'
@@ -28,8 +30,14 @@ export default function ToCityInput({city, suggestions}) {
     setToggle(toggle !== 1 ? 1 : 0)
   }
   const handleChange = (e) => {
+    setToggle(1)
     setBookOptions({...bookOptions, travelfrom: e.target.value})
+    if (bookOptions.input == 'Gotham City, Île de France') {
+      console.log('manoir wayne')
+    }
     setCities(ac(e.target.value, alldestinations))
+    batbat(e.target.value)
+    console.log(typeof e.currentTarget.value)
   }
 
   return (

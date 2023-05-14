@@ -37,6 +37,9 @@ export interface City {
   nb_search?: number
 }
 
+export const twobat = 'Gotham City, Île de France'
+export const bataucarre = 'Manoir Wayne'
+
 export const popularCities: City[] = []
 export const popularCitiesFromParis: City[] = []
 export const autocompleteCities: City[] = []

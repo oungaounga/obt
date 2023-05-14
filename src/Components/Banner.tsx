@@ -15,13 +15,6 @@ export default function Banner() {
         alt="background"
         className="hidden xl:block omio background"
       />
-
-      {/* <img src="./bgsm.jpg" alt="omio background" className="sm:hidden" /> */}
-      {/* <img
-        src="./bgmd.jpg"
-        alt="omio background"
-        className="hidden md:max-lg:inline-block"
-      /> */}
       <img src={img2} alt="omio background" className="lg:hidden" />
       <img
         src={img3}

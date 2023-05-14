@@ -5,6 +5,7 @@ import {CSSTransition} from 'react-transition-group'
 import {ToggleContext} from '../App'
 
 //----------Icons--------------//
+import {menuIcon} from './icons'
 const downChevronIcon = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +103,7 @@ const createPopOver = (list, setS, S, whichFalse, ref, title?: string) => {
       ref={ref}
     >
       {title && (
-        <p className="pt-[0.7rem] pl-[0.8rem] hover:bg-neutral-200 rounded-t-md">
+        <p className="pt-[0.7rem] pl-[0.8rem] hover:bg-slate-200 rounded-t-md">
           {title}
         </p>
       )}
@@ -110,11 +111,9 @@ const createPopOver = (list, setS, S, whichFalse, ref, title?: string) => {
         return (
           <p
             className={`
-            ${index == 0 && !title ? 'rounded-t-md' : ''}
+            ${index === 0 && !title ? 'rounded-t-md' : ''}
             ${index === 0 ? 'pt-[0.7rem] pl-[0.8rem]' : 'p-[0.1rem] pl-[1rem]'}
-             hover:bg-neutral-200 ${
-               index === list.length - 1 && 'rounded-b-md'
-             }`}
+             hover:bg-slate-200 ${index === list.length - 1 && 'rounded-b-md'}`}
           >
             {item}
           </p>
@@ -124,6 +123,8 @@ const createPopOver = (list, setS, S, whichFalse, ref, title?: string) => {
   )
 }
 
+/**currency and language components */
+
 export default function Navbar(props) {
   // State for toggeling pop overs
   const [commutesPopOver, setCommutesPopOver] = useState({
@@ -132,7 +133,7 @@ export default function Navbar(props) {
     flights: false,
     ferries: false,
   })
-  const {toggle, setToggle} = useContext(ToggleContext)
+  const {setToggle} = useContext(ToggleContext)
 
   const trains = useRef(null)
   const buses = useRef(null)
@@ -171,22 +172,16 @@ export default function Navbar(props) {
     ferries
   )
 
+  const timeout = 300
+
   return (
     <div
       id="navbar"
       className="z-40 relative   text-white flex flex-col lg:items-center"
     >
-      <div className="flex max-w-[75vw]  justify-between p-[1rem] xl:w-[75vw] ">
+      <div className="flex w-full  justify-between p-[1rem] md:w-[100%] ">
         <div className="flex gap-6 ">
-          <span
-            className="text-4xl font-bold "
-            onClick={(e) => {
-              e.stopPropagation()
-              setToggle(7)
-            }}
-          >
-            omio
-          </span>
+          <span className="text-4xl font-bold ">omio</span>
           <div className="flex justify-between hover:cursor-pointer hidden lg:flex items-center text-sm gap-4">
             <div
               className="relative h-fit w-fit"
@@ -219,7 +214,7 @@ export default function Navbar(props) {
               <CSSTransition
                 nodeRef={trains}
                 in={commutesPopOver.trains}
-                timeout={300}
+                timeout={timeout}
                 classNames="fallfade"
                 unmountOnExit
               >
@@ -254,7 +249,7 @@ export default function Navbar(props) {
               <CSSTransition
                 nodeRef={buses}
                 in={commutesPopOver.buses}
-                timeout={300}
+                timeout={timeout}
                 classNames="fallfade"
                 unmountOnExit
               >
@@ -289,7 +284,7 @@ export default function Navbar(props) {
               <CSSTransition
                 nodeRef={flights}
                 in={commutesPopOver.flights}
-                timeout={300}
+                timeout={timeout}
                 classNames="fallfade"
                 unmountOnExit
               >
@@ -323,7 +318,7 @@ export default function Navbar(props) {
               <CSSTransition
                 nodeRef={ferries}
                 in={commutesPopOver.ferries}
-                timeout={300}
+                timeout={timeout}
                 classNames="fallfade"
                 unmountOnExit
               >
@@ -332,7 +327,7 @@ export default function Navbar(props) {
             </div>
           </div>
         </div>
-        <div className="flex hidden lg:flex gap-6 items-center text-sm">
+        <div className=" hidden lg:flex gap-6 items-center text-sm">
           <div>
             <span className="hover:cursor-pointer inline">€</span>
             {downChevronIcon}
@@ -344,6 +339,15 @@ export default function Navbar(props) {
           <span className="hover:cursor-pointer">Your bookings</span>
           <span className="hover:cursor-pointer">Sign in</span>
           <span className="hover:cursor-pointer">Create an account</span>
+        </div>
+        <div
+          className="lg:hidden grid item-center hover:cursor-pointer"
+          onClick={(e) => {
+            e.stopPropagation()
+            setToggle(7)
+          }}
+        >
+          {menuIcon}
         </div>
       </div>
     </div>

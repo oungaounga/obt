@@ -58,10 +58,13 @@ const panels = [
 
 const createPopOver = (list) => {
   return (
-    <div className="w-full text-[#132968] ">
+    <div className="w-full text-[#132968]  ">
       {list.map((item, index) => {
         return (
-          <p key={index} className=" p-[0.3rem] pl-[2rem]">
+          <p
+            key={index}
+            className="hover:cursor-pointer hover:bg-slate-200 p-[0.3rem] pl-[2rem]"
+          >
             {item}
           </p>
         )
@@ -87,12 +90,15 @@ export default function ControlPanel({which}) {
     <>
       {panels.map(({title, icon, menu}, index) => {
         return (
-          <div className="flex flex-col">
+          <div className="flex flex-col" key={index}>
             <div
-              className="w-full flex bg-white justify-between items-center p-[0.5rem] pl-[1rem] pr-[1rem] "
-              key={index}
+              className={`w-full flex bg-white  ${
+                index !== 0 && 'hover:bg-slate-200'
+              } justify-between items-center p-[0.5rem] pl-[1rem] pr-[1rem] ${
+                index !== 0 && 'hover:cursor-pointer'
+              } `}
             >
-              <div className="w-fit flex gap-3 ">
+              <div className="w-fit flex gap-3  ">
                 <div className={`grid ${index === 0 && 'hidden'}`}>{icon}</div>
                 <p
                   className={`font-bold ${
@@ -110,8 +116,6 @@ export default function ControlPanel({which}) {
                     : panel === index
                     ? setPanel(0)
                     : setPanel(index)
-
-                  console.log('index of list', index)
                 }}
               >
                 {index === 0 && closeIcon}
