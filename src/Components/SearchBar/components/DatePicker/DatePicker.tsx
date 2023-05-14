@@ -1,6 +1,11 @@
 /** @format */
+/**
+ * TODO Add close date picker after date picked
+ */
+
 import React, {useState, useContext, useRef} from 'react'
 import {BookOptionsContext} from '../../SearchBar'
+import {ToggleContext} from '../../../../App'
 import dayjs from 'dayjs'
 import {rightchevronIcon, leftchevronIcon} from '../../../icons'
 
@@ -12,6 +17,14 @@ const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 // const returnDayOfWeek = (input) => {
 //   return week[input]
 // }
+function datepb() {
+  let today = dayjs()
+  let date = dayjs().date(13)
+  console.log('date :', date)
+  console.log('is before ? ', today.isBefore(date))
+  console.log('is same ? ', today.isSame(date))
+}
+
 export const formatDateForInput = (date) => {
   return `${date.format('ddd')}, ${date.format('MMM')} ${date.format('DD')}`
 }
@@ -44,6 +57,7 @@ function MakeCalendar() {
   const [travelDate, setTravelDate] = useState(today)
   const [calendarMonth, setCalendarMonth] = useState(today)
   const {bookOptions, setBookOptions} = useContext(BookOptionsContext)
+  const {toggle} = useContext(ToggleContext)
 
   const date = generateDate(calendarMonth.month())
   const v = date[1]
@@ -56,7 +70,7 @@ function MakeCalendar() {
     <>
       <div
         id="calendar"
-        className={`relative w-fit min-h-[18rem] flex gap-[2rem] text-[#132968] select-none `}
+        className={`relative max-w-[90%] md:w-fit min-h-[18rem] flex wrap gap-[2rem] text-[#132968] select-none `}
       >
         <div className={`flex flex-col bg-white `}>
           <div className="w-full flex justify-between">
@@ -97,61 +111,77 @@ function MakeCalendar() {
                 </p>
               ))}
             </div>
-            <div className=" w-[21rem] h-[15rem] grid grid-cols-7 gap-px">
+            <div className=" w-[21rem] h-[15rem] grid grid-cols-7">
               {v.map((item, index) => (
                 <p
                   key={index}
                   className={`grid justify-center content-center  hover:cursor-pointer 
             ${index === 0 ? `col-start-${item.day() + 1}` : ' '} ${
-                    travelDate.isSame(item, 'day') &&
+                    bookOptions.dDateObj.isSame(item, 'day') &&
                     'bg-slate-700 rounded-full text-white'
-                  } 
+                  }
+                  ${
+                    bookOptions.rDateObj &&
+                    item.isSame(bookOptions.rDateObj, 'd') &&
+                    'bg-slate-700 text-white rounded-full'
+                  }
+                  ${
+                    bookOptions.rDateObj &&
+                    item.isBefore(bookOptions.rDateObj, 'd') &&
+                    item.isAfter(bookOptions.dDateObj, 'd') &&
+                    'rounded-md m-[1px] bg-[#ACCEEF] font-bold text-[#132968]'
+                  }
                   ${item.day() === 0 && 'font-bold'} 
                   ${item.day() === 6 && 'font-bold'}                  
                   ${
-                    isPast(item)
-                      ? 'text-neutral-500'
+                    item.isBefore(today)
+                      ? 'text-neutral-500 pointer-events-none'
                       : 'hover:rounded-full hover:ring-[1px] hover:ring-[#132968] hover:ring-inset'
-                  }`}
-                  onClick={() => {
-                    if (!isPast(item)) {
-                      bookOptions.departure
+                  } `}
+                  onClick={(e) => {
+                    /**
+                     * consider if its a departure or return
+                     * if its departure, is there a return ?
+                     *  if yes, item should be be fore return, or we fix departure at same date as return
+                     * else if its return :
+                     *  return should be after departure, else return set same day as departure
+                     *
+                     */
+                    e.stopPropagation()
+                    let prev = bookOptions
+                    if (toggle === 3) {
+                      if (bookOptions.rDateObj) {
+                        item.isBefore(bookOptions.rDateObj)
+                          ? setBookOptions({
+                              ...bookOptions,
+                              dDateObj: item,
+                              departure: formatDateForInput(item),
+                            })
+                          : setBookOptions({
+                              ...bookOptions,
+                              dDateObj: prev.rDateObj,
+                              departure: formatDateForInput(prev.rDateObj),
+                            })
+                      } else {
+                        setBookOptions({
+                          ...bookOptions,
+                          dDateObj: item,
+                          departure: formatDateForInput(item),
+                        })
+                      }
+                    } else if (toggle === 17) {
+                      item.isAfter(bookOptions.dDateObj)
                         ? setBookOptions({
                             ...bookOptions,
-                            return: formatDateForInput(item),
                             rDateObj: item,
+                            return: formatDateForInput(item),
                           })
                         : setBookOptions({
                             ...bookOptions,
-                            departure: formatDateForInput(item),
-                            dDateObj: item,
+                            rDateObj: prev.dDateObj,
+                            return: formatDateForInput(prev.dDateObj),
                           })
-                      /*
-                      // if (bookOptions.departure) {
-                      // if (item.isAfter(bookOptions.departure)) {
-                      //   setBookOptions({
-                      //     ...bookOptions,
-                      //     return: formatDateForInput(item),
-                      //     rDateObj: item,
-                      //   })
-                      // } else {
-                      //   console.log('do nothing')
-                      // }
-                      //   bookOptions.depature.isBEfo(bookOptions.departure) &&
-                      //     setBookOptions({
-                      //       ...bookOptions,
-                      //       return: formatDateForInput(item),
-                      //       rDateObj: item,
-                      //     })
-                      // } else {
-                      //   setBookOptions({
-                      //     ...bookOptions,
-                      //     departure: formatDateForInput(item),
-                      //     dDateObj: item,
-                      //   })
-                      // }*/
                     }
-                    console.log(item.isSame(dayjs(), 'day'))
                   }}
                 >
                   {item.$D}
@@ -204,32 +234,72 @@ function MakeCalendar() {
                   <p
                     key={index}
                     className={`grid justify-center content-center  hover:cursor-pointer 
-            ${index === 0 ? `col-start-${item.day() + 1}` : ' '} ${
-                      travelDate.isSame(item, 'day') &&
+                    ${index === 0 ? `col-start-${item.day() + 1}` : ' '} ${
+                      bookOptions.dDateObj.isSame(item, 'day') &&
                       'bg-slate-700 rounded-full text-white'
-                    } 
-                  
-                    
-                    ${item.day() === 0 && 'font-bold'} 
-                    ${item.day() === 6 && 'font-bold'} 
-                  ${
-                    isPast(item)
-                      ? 'text-neutral-500'
-                      : 'hover:rounded-full hover:ring-[1px] hover:ring-[#132968] hover:ring-inset'
-                  }`}
-                    onClick={() => {
-                      setTravelDate(item)
-                      bookOptions.departure
-                        ? setBookOptions({
+                    }
+                          ${
+                            bookOptions.rDateObj &&
+                            item.isSame(bookOptions.rDateObj, 'd') &&
+                            'bg-slate-700 text-white rounded-full'
+                          }
+                          ${
+                            bookOptions.rDateObj &&
+                            item.isBefore(bookOptions.rDateObj, 'd') &&
+                            item.isAfter(bookOptions.dDateObj, 'd') &&
+                            'text-bg-slate-600 '
+                          }
+                          ${item.day() === 0 && 'font-bold'} 
+                          ${item.day() === 6 && 'font-bold'}                  
+                          ${
+                            item.isBefore(today)
+                              ? 'text-neutral-500 pointer-events-none'
+                              : 'hover:rounded-full hover:ring-[1px] hover:ring-[#132968] hover:ring-inset'
+                          } `}
+                    onClick={(e) => {
+                      /**
+                       * consider if its a departure or return
+                       * if its departure, is there a return ?
+                       *  if yes, item should be be fore return, or we fix departure at same date as return
+                       * else if its return :
+                       *  return should be after departure, else return set same day as departure
+                       *
+                       */
+                      e.stopPropagation()
+                      let prev = bookOptions
+                      if (toggle === 3) {
+                        if (bookOptions.rDateObj) {
+                          item.isBefore(bookOptions.rDateObj)
+                            ? setBookOptions({
+                                ...bookOptions,
+                                dDateObj: item,
+                                departure: formatDateForInput(item),
+                              })
+                            : setBookOptions({
+                                ...bookOptions,
+                                dDateObj: prev.rDateObj,
+                                departure: formatDateForInput(prev.rDateObj),
+                              })
+                        } else {
+                          setBookOptions({
                             ...bookOptions,
-                            return: formatDateForInput(item),
-                            rDateObj: item,
-                          })
-                        : setBookOptions({
-                            ...bookOptions,
-                            departure: formatDateForInput(item),
                             dDateObj: item,
+                            departure: formatDateForInput(item),
                           })
+                        }
+                      } else if (toggle === 17) {
+                        item.isAfter(bookOptions.dDateObj)
+                          ? setBookOptions({
+                              ...bookOptions,
+                              rDateObj: item,
+                              return: formatDateForInput(item),
+                            })
+                          : setBookOptions({
+                              ...bookOptions,
+                              rDateObj: prev.dDateObj,
+                              return: formatDateForInput(prev.dDateObj),
+                            })
+                      }
                     }}
                   >
                     {item.$D}
@@ -249,7 +319,7 @@ export default function DatePicker() {
     <>
       <div
         id="dpicker"
-        className="absolute w-fit bg-white z-40 top-[3rem] md:left-[-8rem] lg:left-[-4rem] xl:left-[-14rem] grid justify-center content-center p-[1.5rem] rounded-xl shadow-2xl"
+        className="absolute w-fit bg-white z-40 top-[3.5rem] md:left-[-8rem] lg:left-[-4rem] xl:left-[-14rem] grid justify-center content-center p-[1.5rem] rounded-xl shadow-2xl"
       >
         <div className={`relative w-fit min-h-[18rem] flex text-[#132968] `}>
           <MakeCalendar />

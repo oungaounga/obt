@@ -74,21 +74,21 @@ function arrangeCities(v: popularCity[]) {
 // let citiesArr: {local_name: string; nb_search: number}[] = []
 
 // export const fetchApi = (adress: string) => {
-//   fetch(adress)
-//     .then((result) => result.json())
-//     .then((res) => {
-//       res.forEach((item: popularCity) => {
-//         citiesArr.push({
-//           local_name: item.local_name,
-//           nb_search: Number(item.nb_search),
-//         })
+// fetch(adress)
+//   .then((result) => result.json())
+//   .then((res) => {
+//     res.forEach((item: popularCity) => {
+//       citiesArr.push({
+//         local_name: item.local_name,
+//         nb_search: Number(item.nb_search),
 //       })
-//       console.log('fetched')
-//       return citiesArr
 //     })
-//     .catch((error) => {
-//       console.log(error)
-//     })
+//     console.log('fetched')
+//     return citiesArr
+//   })
+//   .catch((error) => {
+//     console.log(error)
+//   })
 // }
 
 export const extractScores = (array: popularCity[] | void) => {

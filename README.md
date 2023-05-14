@@ -25,3 +25,12 @@ obt@0.1.0 /home/razal/projects/obt
 ├── tailwindcss@3.3.2
 ├── typescript@4.9.5
 └── web-vitals@2.1.4
+
+I observe that the ideal documentation is no documentation, the naming,
+conventions used, code structure should speak for themselves
+To document the good way, I should know full vocabulary, be familiar with
+what can happen in a code ? For example, I called a function that fetches
+all the APIs provided, treates them and stores pushes them into arrays fetchAndStore, but it could be fetchaAndAllocate, fetchAndTreatAndPush,
+extractFromApi etc...
+
+To make the most solid software, i.e. one that doesn't beark after few clicks, consider the user as the fairly silly person that will try to action stuff that a normal user won't, or a player wants to uncover all the easter eggs hidden in your game (if there are any)

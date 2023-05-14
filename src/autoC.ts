@@ -48,11 +48,15 @@ export const matchCities = (input: string): string[] => {
 export const ac = (input: string, list: string[], from?: string): string[] => {
   let result: string[] = []
   list.forEach((item) => {
-    patternMatch(item, input) ? result.push(item) : console.log('')
+    // patternMatch(item, input) ? result.push(item) : console.log('')
+    if (patternMatch(item, input) && !result.includes(item)) {
+      result.push(item)
+    }
   })
   if (typeof from !== 'undefined') {
     result.splice(result.indexOf(from), 1)
   }
+  /**can add a re organize at the end */
   return result
 }
 

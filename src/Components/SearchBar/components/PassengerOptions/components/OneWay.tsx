@@ -74,27 +74,22 @@ export default function OneWay(props) {
           </div>
           <div
             className="flex hover:bg-neutral-200 w-full pl-[0.5rem] pr-[1rem] p-[0.5rem] gap-[3px] h-fit rounded-b-md"
-            onClick={() => {
-              set({...data, roundtrip: true})
+            onClick={(e) => {
+              e.stopPropagation()
+              let add = dayjs().add(7, 'day')
+              set({
+                ...data,
+                roundtrip: true,
+                return: formatDateForInput(add),
+                rDateObj: add,
+              })
+              setToggle(0)
             }}
           >
             <CheckIcon
               className={`${data.roundtrip ? 'block' : 'invisible'}`}
             />
-            <p
-              className={`w-full ${data.roundtrip && 'font-bold'}`}
-              onClick={(e) => {
-                e.stopPropagation()
-                let add = dayjs().add(7, 'day')
-                set({
-                  ...data,
-                  roundtrip: true,
-                  return: formatDateForInput(add),
-                  rDateObject: add,
-                })
-                setToggle(0)
-              }}
-            >
+            <p className={`w-full ${data.roundtrip && 'font-bold'}`}>
               Round trip
             </p>
           </div>

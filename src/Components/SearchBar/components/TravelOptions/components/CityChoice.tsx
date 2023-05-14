@@ -8,7 +8,7 @@ export default function CityChoice(props) {
   const {cities} = props
   const {bookOptions, setBookOptions} = useContext(BookOptionsContext)
   return (
-    <div className="absolute w-[30rem] top-[3rem] left-[-0.7rem] bg-white shadow-2xl rounded-md max-h-[20rem] overflow-scroll z-40">
+    <div className="absolute max-w-[110%] lg:w-[30rem] top-[3rem] left-[-0.7rem] bg-white drop-shadow-2xl rounded-md max-h-[20rem] overflow-scroll z-40">
       <ul className="list-none list-inside">
         {bookOptions.travelfrom && (
           <li className="p-[0.7rem] m-0 text-sm text-neutral-300 bg-neutral-100">
