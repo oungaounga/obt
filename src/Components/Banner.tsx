@@ -8,7 +8,7 @@ export default function Banner() {
       bg-center absolute justify-center overflow-hidden z-0"
     >
       <img
-        src="./omiobg.jpg"
+        src="../media/omiobg.jpg"
         alt="background"
         className="hidden xl:block omio background"
       />
@@ -18,7 +18,11 @@ export default function Banner() {
         alt="omio background"
         className="hidden md:max-lg:inline-block"
       /> */}
-      <img src="./bglg.jpg" alt="omio background" className="lg:hidden" />
+      <img
+        src="../media/bglg.jpg"
+        alt="omio background"
+        className="lg:hidden"
+      />
       <img
         src="./bgxl.jpg"
         alt="omio background"

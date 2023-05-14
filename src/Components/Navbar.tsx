@@ -1,6 +1,8 @@
 /** @format */
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useContext} from 'react'
 import {CSSTransition} from 'react-transition-group'
+
+import {ToggleContext} from '../App'
 
 //----------Icons--------------//
 const downChevronIcon = (
@@ -130,6 +132,8 @@ export default function Navbar(props) {
     flights: false,
     ferries: false,
   })
+  const {toggle, setToggle} = useContext(ToggleContext)
+
   const trains = useRef(null)
   const buses = useRef(null)
   const flights = useRef(null)
@@ -174,7 +178,15 @@ export default function Navbar(props) {
     >
       <div className="flex max-w-[75vw]  justify-between p-[1rem] xl:w-[75vw] ">
         <div className="flex gap-6 ">
-          <span className="text-4xl font-bold  ">omio</span>
+          <span
+            className="text-4xl font-bold "
+            onClick={(e) => {
+              e.stopPropagation()
+              setToggle(7)
+            }}
+          >
+            omio
+          </span>
           <div className="flex justify-between hover:cursor-pointer hidden lg:flex items-center text-sm gap-4">
             <div
               className="relative h-fit w-fit"

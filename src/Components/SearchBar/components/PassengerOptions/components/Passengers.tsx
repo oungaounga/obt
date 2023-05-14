@@ -123,7 +123,7 @@ export default function Passengers(props) {
   }
   return (
     <div
-      className="relative flex gap-1 z-40"
+      className="relative flex-wrap flex gap-1 z-40"
       onClick={(e) => {
         e.stopPropagation()
         setTitle(makeTitle())
@@ -148,7 +148,7 @@ export default function Passengers(props) {
       >
         <div
           id="personConfig"
-          className="absolute select-none top-[1.5rem] p-[1rem] w-[22rem] bg-white rounded-xl text-black z-40 shadow-lg"
+          className="absolute select-none left-[-3rem] top-[1.5rem] p-[1rem] w-[22rem] bg-white rounded-xl text-black z-40 shadow-lg"
           ref={ref}
         >
           <div className="flex flex-col gap-3 divide-y divide-y-neutral-300">

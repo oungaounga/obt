@@ -1,4 +1,5 @@
 /** @format */
+import {signalIcon} from './icons'
 
 export default function Heading() {
   return (

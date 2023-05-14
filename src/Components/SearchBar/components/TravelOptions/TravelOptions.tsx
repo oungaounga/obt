@@ -35,24 +35,30 @@ const fetchAndStore = () => {
         res.forEach((item: any) => {
           autocompleteData.push(item.local_name)
         })
-        alldestinations = alldestinations.concat(autocompleteData)
+        console.log('1')
+        alldestinations = [...alldestinations, ...autocompleteData]
       })
       pop.json().then((res) => {
         res.forEach((item: any) => {
           popular.push(item.local_name)
         })
-        alldestinations = alldestinations.concat(popular)
+        console.log('2')
+
+        alldestinations = [...alldestinations, ...popular]
       })
       popfromP.json().then((res) => {
         res.forEach((item: any) => {
           popularFromParis.push(item.local_name)
         })
-        alldestinations = alldestinations.concat(popularFromParis)
+        console.log('3')
+
+        alldestinations = [...alldestinations, ...popularFromParis]
       })
     })
     .catch((err) => {
       console.log(err)
     })
+  console.log('4')
 }
 
 /**
@@ -91,6 +97,14 @@ export default function TravelOptions() {
         <DateInput />
         <SearchButton />
         <FindAccomodation />
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            console.log(alldestinations)
+          }}
+        >
+          AllDestination
+        </button>
       </div>
     </>
   )

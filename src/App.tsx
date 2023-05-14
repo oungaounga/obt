@@ -19,6 +19,7 @@ import Heading from './Components/Heading'
 import {Spacer} from './Components/Spacer'
 import Banner from './Components/Banner'
 import Navbar from './Components/Navbar'
+import PhoneNavbar from './Components/PhoneNavbar/PhoneNavbar'
 
 export const ToggleContext = createContext(null)
 
@@ -56,6 +57,7 @@ function App() {
           <Spacer y={1} />
         </div>
       </div>
+      <PhoneNavbar />
     </ToggleContext.Provider>
   )
 }
